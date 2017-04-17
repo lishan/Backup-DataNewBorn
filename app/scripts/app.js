@@ -17,7 +17,21 @@ angular
     'ngResource',
     'ngRoute',
     'ngSanitize',
-    'ngTouch'
+    'ngTouch',
+    'pascalprecht.translate',
+    'ngFileUpload',
+    "isteven-multi-select",
+    "dndLists",
+    'ui.bootstrap',
+    'ui-notification',
+    'angularSpinner',
+    'ngCookies',
+    'ui.select',
+    'toggle-switch',
+    'cfp.hotkeys',
+    'ui.bootstrap.datetimepicker',
+    'angularMoment',
+    'chart.js'
   ])
   .config(function ($routeProvider) {
     $routeProvider
