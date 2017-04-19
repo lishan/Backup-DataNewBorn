@@ -9,7 +9,7 @@
  * Main module of the application.
  */
 angular
-  .module('basicApp', [
+  .module('dataNewBorn', [
     'ngAnimate',
     'ngAria',
     'ngCookies',
@@ -46,6 +46,14 @@ angular
       .when('/dataModel', {
         templateUrl: 'views/dataModel.html',
         controller: 'DataModelCtrl'
+      })
+      .when('/operation', {
+        templateUrl: 'views/operation.html',
+        controller: 'OperationCtrl'
+      })
+      .when('/library', {
+        templateUrl: 'views/library.html',
+        controller: 'LibraryCtrl'
       })
       .otherwise({
         redirectTo: '/'

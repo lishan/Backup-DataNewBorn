@@ -3,7 +3,7 @@
 /**
  * Controller of the dashboard
  */
-angular.module('basicApp')
+angular.module('dataNewBorn')
   .controller('DashboardCtrl',['$rootScope', '$scope', function ($rootScope, $scope) {
     $rootScope.tab = "dashboard";
     $scope.labels1 = ["Download Sales", "In-Store Sales", "Mail-Order Sales", "Tele Sales", "Corporate Sales"];

@@ -1,8 +1,8 @@
 <!doctype html>
-<html ng-app="basicApp">
+<html ng-app="dataNewBorn">
 <head>
   <meta charset="utf-8">
-  <title ng-bind="title"></title>
+  <title>DataNewBorn</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width">
   <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
@@ -63,11 +63,36 @@
             </ul>
           </form>
           <ul class="nav navbar-nav navbar-right">
-            <li><a ng-class="{true:'active'}[tab === 'dashboard']" href="#/dashboard">仪表盘</a></li>
-            <li><a ng-class="{true:'active'}[tab === 'dataModel']" href="#/dataModel">数据表</a></li>
-            <li><a ng-class="{true:'active'}[tab === 'operation']" href="#/operation">操作间</a></li>
-            <li><a ng-class="{true:'active'}[tab === 'library']" href="#/library">图标库</a></li>
-            <li><a ng-class="{true:'active'}[tab === 'system']" href="#/system">设置</a></li>
+            <li>
+              <a ng-class="{true:'active'}[tab === 'dashboard']" href="#/dashboard">
+                <span class="glyphicon glyphicon-picture"></span>
+                <span>仪表盘</span>
+              </a>
+            </li>
+            <li>
+              <a ng-class="{true:'active'}[tab === 'dataModel']" href="#/dataModel">
+                <span class="glyphicon glyphicon-list"></span>
+                <span>数据表</span>
+              </a>
+            </li>
+            <li>
+              <a ng-class="{true:'active'}[tab === 'operation']" href="#/operation">
+                <span class="glyphicon glyphicon-shopping-cart"></span>
+                <span>操作间</span>
+              </a>
+            </li>
+            <li>
+              <a ng-class="{true:'active'}[tab === 'library']" href="#/library">
+                <span class="glyphicon glyphicon-briefcase"></span>
+                <span>图标库</span>
+              </a>
+            </li>
+            <li>
+              <a ng-class="{true:'active'}[tab === 'system']" href="#/system">
+                <span class="glyphicon glyphicon-cog"></span>
+                <span>设置</span>
+              </a>
+            </li>
           </ul>
         </div>
       </div>
@@ -137,9 +162,12 @@
 <script src="bower_components/angular-drag-and-drop-lists/angular-drag-and-drop-lists.js"></script>
 <script src="bower_components/mermaid/dist/mermaid.js"></script>
 <script src="build-scripts/app.js"></script>
+<script src="build-scripts/directive/tokenfield.js"></script>
 <script src="build-scripts/controllers/main.js"></script>
 <script src="build-scripts/controllers/dashboard.js"></script>
 <script src="build-scripts/controllers/dataModel.js"></script>
+<script src="build-scripts/controllers/library.js"></script>
+<script src="build-scripts/controllers/operation.js"></script>
 <!-- endbuild -->
 </body>
 </html>
