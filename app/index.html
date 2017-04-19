@@ -37,12 +37,12 @@
   <span us-spinner spinner-key="spinner"></span>
   <div class="navbar navbar-default">
     <div class="container-fluid">
-      <div class="col-md-offset-1 col-md-10">
+      <div class="col-lg-offset-1 col-lg-10">
         <div class="navbar-header">
-          <div style="margin-top: 8px;">
+          <a href="#/" class="navbar-brand logo">
             <img src="/images/yeoman.png" style="height: 32px;" alt="dataNewBorn" title="dataNewBorn">
             <span class="brand">DataNewBorn</span>
-          </div>
+          </a>
           <!--<button type="button" class="navbar-toggle" data-toggle="sidebar" data-target=".sidebar">-->
           <!--<span class="sr-only">Toggle navigation</span>-->
           <!--<span class="icon-bar"></span>-->
@@ -63,8 +63,8 @@
             </ul>
           </form>
           <ul class="nav navbar-nav navbar-right">
-            <li><a class="active" ng-class="{true:'active'}[tab === 'dashboard']" href="#/dashboard">仪表盘</a></li>
-            <li><a ng-class="{true:'active'}[tab === 'table']" href="#/table">数据表</a></li>
+            <li><a ng-class="{true:'active'}[tab === 'dashboard']" href="#/dashboard">仪表盘</a></li>
+            <li><a ng-class="{true:'active'}[tab === 'dataModel']" href="#/dataModel">数据表</a></li>
             <li><a ng-class="{true:'active'}[tab === 'operation']" href="#/operation">操作间</a></li>
             <li><a ng-class="{true:'active'}[tab === 'library']" href="#/library">图标库</a></li>
             <li><a ng-class="{true:'active'}[tab === 'system']" href="#/system">设置</a></li>
@@ -84,13 +84,13 @@
   <!--<li><a ng-href="#/">{{'user_manage' | translate}}</a></li>-->
   <!--</ul>-->
   <!--</div>-->
-  <div class="col-md-10 col-md-offset-1">
+  <div class="col-lg-10 col-lg-offset-1">
     <div ng-view=""></div>
   </div>
 </div>
 
 <div class="container-fluid">
-  <div class="col-md-10 col-md-offset-1">
+  <div class="col-lg-10 col-lg-offset-1">
     <div class="footer">
       © Copyright
     </div>
@@ -138,6 +138,8 @@
 <script src="bower_components/mermaid/dist/mermaid.js"></script>
 <script src="build-scripts/app.js"></script>
 <script src="build-scripts/controllers/main.js"></script>
+<script src="build-scripts/controllers/dashboard.js"></script>
+<script src="build-scripts/controllers/dataModel.js"></script>
 <!-- endbuild -->
 </body>
 </html>

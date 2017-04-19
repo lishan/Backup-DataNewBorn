@@ -2,7 +2,7 @@
 module.exports = {
   dev: {
     dist: 'app',
-    port: 9000
+    port: 8900
   },
   prod: {
     dist: 'dist',

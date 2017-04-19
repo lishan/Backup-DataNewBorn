@@ -41,12 +41,6 @@ body {
   margin: 30px 0;
 }
 
-/* Main marketing message and sign up button */
-.jumbotron {
-  text-align: center;
-  border-bottom: 1px solid #e5e5e5;
-}
-
 /* Supporting marketing content */
 .marketing {
   margin: 40px 0;
@@ -256,14 +250,8 @@ div.ng-invalid.ng-touched.ui-select-container i.caret.pull-right {
   width: 200px;
 }
 
-.btn-circle {
-  width: 30px;
-  height: 30px;
-  text-align: center;
-  padding: 6px 0;
-  font-size: 12px;
-  line-height: 1.428571429;
-  border-radius: 15px;
+.navbar-brand.logo {
+  padding: 10px 15px;
 }
 
 ul.ui-autocomplete {
