@@ -55,6 +55,10 @@ angular
         templateUrl: 'views/library.html',
         controller: 'LibraryCtrl'
       })
+      .when('/setting', {
+        templateUrl: 'views/main.html',
+        controller: 'SettingCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });
