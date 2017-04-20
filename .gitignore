@@ -15,3 +15,5 @@ nohup.out
 log/
 *.log
 users.dat
+.tmp/
+dataNewBorn.war

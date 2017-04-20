@@ -7,5 +7,6 @@ module.exports = {
   prod: {
     dist: 'dist',
     port: 9000
-  }
+  },
+  env: "dev"
 };
