@@ -30,5 +30,7 @@ module.exports = {
 ## Start
 
 Use `gulp serve` to start express server.
+
 Use `gulp` to build static dist directory.
+
 Use `gulp war` to build a war package.
