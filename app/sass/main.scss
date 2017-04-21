@@ -34,6 +34,23 @@ body {
   }
 }
 
+.equal {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+}
+
+.equal div[class*='col-'] {
+  flex:1 1 auto;
+  display: flex;
+}
+
+.equal div[class*='col-'] .panel {
+  flex:1 0 100%;
+}
+
 /* Custom page footer */
 .footer {
   padding-top: 19px;

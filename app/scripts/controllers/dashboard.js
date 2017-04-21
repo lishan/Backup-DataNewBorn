@@ -4,7 +4,27 @@
  * Controller of the dashboard
  */
 angular.module('dataNewBorn')
-  .controller('DashboardCtrl',['$rootScope', '$scope', function ($rootScope, $scope) {
+  .controller('DashboardCtrl',['$rootScope', '$scope', '$uibModal', function ($rootScope, $scope, $uibModal) {
+    $scope.openModal = ()=>{
+      $uibModal.open({
+        animation: true,
+        ariaLabelledBy: 'modal-title-bottom',
+        ariaDescribedBy: 'modal-body-bottom',
+        templateUrl: 'myModalContent.html',
+        size: 'md',
+        scope: $scope,
+        controller: ['$scope', '$uibModalInstance', function($scope, $uibModalInstance) {
+          $scope.content = "This is modal content";
+          $scope.ok = function () {
+            $uibModalInstance.close();
+          };
+
+          $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+          };
+        }]
+      });
+    };
     $rootScope.tab = "dashboard";
     $scope.labels1 = ["Download Sales", "In-Store Sales", "Mail-Order Sales", "Tele Sales", "Corporate Sales"];
     $scope.data1 = [300, 500, 100, 40, 120];

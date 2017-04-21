@@ -19,10 +19,14 @@ angular.module('dataNewBorn').directive('tokenfield',[function() {
       // Add tips
       token = $e.tokenfield({
         autocomplete: {
+          source: ["年份","地域","销售额"],
           delay: 100
         },
         sortable: true,
       });
+      // attrs.$observe('inputs', () => {
+      //   $e.data('bs.tokenfield').$input.autocomplete({source: _findLabelTips()});
+      // });
       //Disable duplicated keys
       $e.on('tokenfield:createtoken', function (event) {
         let existingTokens = $(this).tokenfield('getTokens');
