@@ -5,5 +5,5 @@
  */
 angular.module('dataNewBorn')
   .controller('SettingCtrl',['$rootScope', '$scope', function ($rootScope, $scope) {
-    $rootScope.tab = "setting";
+    $rootScope.init("setting");
   }]);

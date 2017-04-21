@@ -5,5 +5,5 @@
  */
 angular.module('dataNewBorn')
   .controller('LibraryCtrl',['$rootScope', '$scope', function ($rootScope, $scope) {
-    $rootScope.tab = "library";
+    $rootScope.init("library");
   }]);

@@ -56,10 +56,29 @@ angular
         controller: 'LibraryCtrl'
       })
       .when('/setting', {
-        templateUrl: 'views/main.html',
+        templateUrl: 'views/setting.html',
         controller: 'SettingCtrl'
       })
       .otherwise({
         redirectTo: '/'
       });
+  })
+  .run(function($rootScope, $location, $cookies) {
+    $rootScope.logout = function(){
+      $cookies.put("username", undefined);
+      $location.path("/");
+      $rootScope.tab = null;
+    };
+    $rootScope.init = (tab) => {
+      let name = $cookies.get("username");
+      if(name === null || name === undefined){
+        $rootScope.username = null;
+        $rootScope.message = "请先登录";
+        $rootScope.styles = "redBlock";
+        $location.path("/");
+      }else {
+        $rootScope.tab = tab;
+        $rootScope.username = name;
+      }
+    };
   });

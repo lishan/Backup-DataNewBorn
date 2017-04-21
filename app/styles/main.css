@@ -9,7 +9,12 @@ body {
   padding: 0;
 }
 
-/* Everything but the jumbotron gets side spacing for mobile first views */
+/* Everything but the jumbotron4 gets side spacing for mobile first views */
+.jumbotron {
+  text-align: center;
+  border-bottom: 1px solid #e5e5e5;
+}
+
 .header,
 .marketing,
 .footer {

@@ -5,7 +5,7 @@
  */
 angular.module('dataNewBorn')
   .controller('OperationCtrl',['$rootScope', '$scope', '$uibModal', function ($rootScope, $scope, $uibModal) {
-    $rootScope.tab = "operation";
+    $rootScope.init("operation");
     $scope.fields = [];
     $scope.openModal = ()=>{
       $uibModal.open({

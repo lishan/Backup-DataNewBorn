@@ -25,7 +25,7 @@ angular.module('dataNewBorn')
         }]
       });
     };
-    $rootScope.tab = "dashboard";
+    $rootScope.init("dashboard");
     $scope.labels1 = ["Download Sales", "In-Store Sales", "Mail-Order Sales", "Tele Sales", "Corporate Sales"];
     $scope.data1 = [300, 500, 100, 40, 120];
     $scope.labels2 = ["January", "February", "March", "April", "May", "June", "July"];
