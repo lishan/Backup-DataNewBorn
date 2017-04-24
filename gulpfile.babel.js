@@ -8,6 +8,7 @@ let lazypipe = require('lazypipe');
 let rimraf = require('rimraf');
 let wiredep = require('wiredep').stream;
 let runSequence = require('run-sequence');
+let path = require('path');
 
 let yeoman = {
   app: require('./bower.json').appPath || 'app',
@@ -184,7 +185,7 @@ gulp.task('client:build', ['html', 'styles', 'es6:frontend', 'es6:server'], func
     .pipe($.useref({
       transformPath: function(filePath) {
         if(filePath.indexOf("/app/bower_components") === -1) {
-          return filePath.replace('/bower_components', '/app/bower_components')
+          return filePath.replace(`${path.sep}bower_components`, `${path.sep}app${path.sep}bower_components`)
         }else{
           return filePath;
         }
