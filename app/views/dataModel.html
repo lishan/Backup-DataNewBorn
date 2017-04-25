@@ -1,4 +1,4 @@
-<div class="jumbotron">
+<div class="well">
   <div class="panel panel-default">
     <div class="panel-heading">工作表</div>
     <div class="panel-body">
@@ -6,19 +6,24 @@
         <thead>
         <tr>
           <th>名称</th>
-          <th>状态</th>
           <th>时间</th>
           <th>操作人</th>
+          <th>数据总数</th>
+          <th>上传</th>
           <th>动作</th>
         </tr>
         </thead>
         <tbody>
-        <tr>
-          <td>表名称</td>
-          <td>时间</td>
-          <td>表名称</td>
-          <td>表名称</td>
-          <td>表名称</td>
+        <tr ng-repeat="item in data">
+          <td>{{item.dataModelName}}</td>
+          <td>{{item.lastModifyDate}}</td>
+          <td>{{item.lastModifyUser}}</td>
+          <td>{{item.tatalCount}}</td>
+          <td><input ngf-select type="file" ng-model="file"></td>
+          <td>
+            <a href="" ng-click="add(item.id)">追加</a>
+            <a href="" ng-click="remove(item.id)">删除</a>
+          </td>
         </tr>
         </tbody>
       </table>

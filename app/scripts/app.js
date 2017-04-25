@@ -63,6 +63,19 @@ angular
         redirectTo: '/'
       });
   })
+  .config(['NotificationProvider','usSpinnerConfigProvider', '$httpProvider', 'ChartJsProvider', function (NotificationProvider, usSpinnerConfigProvider, $httpProvider, ChartJsProvider) {
+    NotificationProvider.setOptions({
+      delay: 10000,
+      startTop: 20,
+      startRight: 10,
+      verticalSpacing: 20,
+      horizontalSpacing: 20,
+      positionX: 'right',
+      positionY: 'bottom'
+    });
+    usSpinnerConfigProvider.setDefaults({color: 'orange', radius: 20});
+    $httpProvider.interceptors.push('UsInterceptor', 'UrlInterceptor');
+  }])
   .run(function($rootScope, $location, $cookies) {
     $rootScope.logout = function(){
       $cookies.put("username", undefined);
