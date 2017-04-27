@@ -1,0 +1,27 @@
+<div class="col-md-2" ng-controller="OperationSidebarCtrl">
+  <script type="text/ng-template" id="myModalContent.html">
+    <div class="modal-header">
+      <h3 class="modal-title" id="modal-title">I'm a modal!</h3>
+    </div>
+    <div class="modal-body" id="modal-body">
+      <p>{{content}}</p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+      <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+    </div>
+  </script>
+  <div class="list-group">
+    <div class="list-group-item container-fluid">
+      <button class="wizard-button btn btn-default btn-block" href="" ng-click="openModal()">新增</button>
+    </div>
+    <div class="list-group-item">
+      <a class="" href="">操作主题一</a>
+      <button type="button" class="btn btn-default btn-xs btn-danger pull-right"><i class="glyphicon glyphicon-minus"></i></button>
+    </div>
+    <div class="list-group-item">
+      <a class="" href="">操作主题二</a>
+      <button type="button" class="btn btn-default btn-xs btn-danger pull-right"><i class="glyphicon glyphicon-minus"></i></button>
+    </div>
+  </div>
+</div>
