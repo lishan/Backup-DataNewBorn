@@ -82,9 +82,15 @@
               </a>
             </li>
             <li>
+              <a ng-class="{true:'active'}[tab === 'rfm']" href="#/rfm">
+                <span class="glyphicon glyphicon-stats"></span>
+                <span>建立RFM模型</span>
+              </a>
+            </li>
+            <li>
               <a ng-class="{true:'active'}[tab === 'library']" href="#/library">
                 <span class="glyphicon glyphicon-briefcase"></span>
-                <span>图标库</span>
+                <span>图表库</span>
               </a>
             </li>
             <li>
@@ -174,6 +180,7 @@
 <script src="build-scripts/controllers/operation/fields.js"></script>
 <script src="build-scripts/controllers/operation/sidebar.js"></script>
 <script src="build-scripts/controllers/operation/rules.js"></script>
+<script src="build-scripts/controllers/rfm.js"></script>
 <!-- endbuild -->
 </body>
 </html>

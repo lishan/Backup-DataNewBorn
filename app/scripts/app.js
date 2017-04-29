@@ -51,6 +51,10 @@ angular
         templateUrl: 'views/operation.html',
         controller: 'OperationCtrl'
       })
+      .when('/rfm',{
+        templateUrl: 'views/rfm.html',
+        controller: 'RfmCtrl'
+      })
       .when('/library', {
         templateUrl: 'views/library.html',
         controller: 'LibraryCtrl'
@@ -70,7 +74,7 @@ angular
       startRight: 10,
       verticalSpacing: 20,
       horizontalSpacing: 20,
-      positionX: 'right',
+      positionX: 'middle',
       positionY: 'bottom'
     });
     usSpinnerConfigProvider.setDefaults({color: 'orange', radius: 20});
