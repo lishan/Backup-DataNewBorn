@@ -76,6 +76,7 @@ angular
     usSpinnerConfigProvider.setDefaults({color: 'orange', radius: 20});
     $httpProvider.interceptors.push('UsInterceptor', 'UrlInterceptor');
   }])
+  .constant('DEV_MODE', true)
   .run(function($rootScope, $location, $cookies) {
     $rootScope.logout = function(){
       $cookies.put("username", undefined);
