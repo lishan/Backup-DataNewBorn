@@ -2,17 +2,66 @@
   <div class="panel panel-default">
     <div class="panel-heading">参数设置</div>
     <div class="panel-body">
-      <ul>
-        <li>R:<input type="text" ng-model="rfmSetting.R"><input type="text" ng-model="rfmSetting.RWeight"></li>
-        <li></li>
-        <li></li>
-      </ul>
+      <div class="row">
+        <div class="col-xs-1">
+          <span class="label label-default">Recency</span>
+        </div>
+        <div class="col-xs-3">
+          <input type="text" class="form-control" ng-model="rfmSetting.binsList[0]">
+        </div>
+        <div class="col-xs-3">
+          <input type="text" class="form-control" ng-model="rfmSetting.weights[0]">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-1">
+          <span class="label label-default">Frequency</span>
+        </div>
+        <div class="col-xs-3">
+          <input type="text" class="form-control" ng-model="rfmSetting.binsList[1]">
+        </div>
+        <div class="col-xs-3">
+          <input type="text" class="form-control" ng-model="rfmSetting.weights[1]">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-1">
+          <span class="label label-default">Monetary</span>
+        </div>
+        <div class="col-xs-3">
+          <input type="text" class="form-control" ng-model="rfmSetting.binsList[2]">
+        </div>
+        <div class="col-xs-3">
+          <input type="text" class="form-control" ng-model="rfmSetting.weights[2]">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-1">
+          <span class="label label-default">StartDate</span>
+        </div>
+        <div class="col-xs-3">
+          <input type="datepicker" class="form-control" ng-model="rfmSetting.startDate">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-1">
+          <span class="label label-default">EndDate</span>
+        </div>
+        <div class="col-xs-3">
+          <input type="text" class="form-control" ng-model="rfmSetting.endDate">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-2 col-xs-offset-10 btn-group btn-group-lg">
+          <button type="button" class="btn btn-default" ng-click="execute(rfmSetting)">执行</button>
+        </div>
+      </div>
     </div>
   </div>
   <div class="panel panel-default">
     <div class="panel-heading">结果</div>
     <div class="panel-body">
-      
+      <label ng-model="result">{{result}}</label>
     </div>
   </div>
 </div>

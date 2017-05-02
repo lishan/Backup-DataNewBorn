@@ -69,12 +69,12 @@ angular
   })
   .config(['NotificationProvider','usSpinnerConfigProvider', '$httpProvider', 'ChartJsProvider', function (NotificationProvider, usSpinnerConfigProvider, $httpProvider, ChartJsProvider) {
     NotificationProvider.setOptions({
-      delay: 10000,
+      delay: 5000,
       startTop: 20,
       startRight: 10,
       verticalSpacing: 20,
       horizontalSpacing: 20,
-      positionX: 'middle',
+      positionX: 'center',
       positionY: 'bottom'
     });
     usSpinnerConfigProvider.setDefaults({color: 'orange', radius: 20});
