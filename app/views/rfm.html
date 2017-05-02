@@ -7,10 +7,10 @@
           <span class="label label-default">Recency</span>
         </div>
         <div class="col-xs-3">
-          <input type="text" class="form-control" ng-model="rfmSetting.binsList[0]">
+          <input type="number" class="form-control" ng-model="rfmSetting.binsList[0]">
         </div>
         <div class="col-xs-3">
-          <input type="text" class="form-control" ng-model="rfmSetting.weights[0]">
+          <input type="number" class="form-control" ng-model="rfmSetting.weights[0]">
         </div>
       </div>
       <div class="row">
@@ -18,10 +18,10 @@
           <span class="label label-default">Frequency</span>
         </div>
         <div class="col-xs-3">
-          <input type="text" class="form-control" ng-model="rfmSetting.binsList[1]">
+          <input type="number" class="form-control" ng-model="rfmSetting.binsList[1]">
         </div>
         <div class="col-xs-3">
-          <input type="text" class="form-control" ng-model="rfmSetting.weights[1]">
+          <input type="number" class="form-control" ng-model="rfmSetting.weights[1]">
         </div>
       </div>
       <div class="row">
@@ -29,10 +29,10 @@
           <span class="label label-default">Monetary</span>
         </div>
         <div class="col-xs-3">
-          <input type="text" class="form-control" ng-model="rfmSetting.binsList[2]">
+          <input type="number" class="form-control" ng-model="rfmSetting.binsList[2]">
         </div>
         <div class="col-xs-3">
-          <input type="text" class="form-control" ng-model="rfmSetting.weights[2]">
+          <input type="number" class="form-control" ng-model="rfmSetting.weights[2]">
         </div>
       </div>
       <div class="row">
@@ -40,7 +40,7 @@
           <span class="label label-default">StartDate</span>
         </div>
         <div class="col-xs-3">
-          <input type="datepicker" class="form-control" ng-model="rfmSetting.startDate">
+          <input type="text" class="form-control" ng-model="rfmSetting.startDate">
         </div>
       </div>
       <div class="row">
@@ -53,15 +53,33 @@
       </div>
       <div class="row">
         <div class="col-xs-2 col-xs-offset-10 btn-group btn-group-lg">
-          <button type="button" class="btn btn-default" ng-click="execute(rfmSetting)">执行</button>
+          <button type="button" class="btn btn-default" ng-click="buildRFMModel(rfmSetting)">执行</button>
+          <button type="button" class="btn btn-default" ng-click="updateRFMScore(rfmSetting)">更新得分</button>
         </div>
       </div>
     </div>
   </div>
-  <div class="panel panel-default">
-    <div class="panel-heading">结果</div>
-    <div class="panel-body">
-      <label ng-model="result">{{result}}</label>
+  <div class="panel panel-default" ng-model="result">
+    <div class="panel-heading">结果: <em>{{result.status}}</em></div>
+    <div class="panel-body">      
+      <table class="table">
+        <tr>
+          <th>名称</th>
+          <th>截取点</th>
+        </tr>
+        <tr>
+          <td>Recency</td>
+          <td>{{result.rfmCutpoints[0]}}</td>
+        </tr>
+        <tr>
+          <td>Frequency</td>
+          <td>{{result.rfmCutpoints[1]}}</td>
+        </tr>
+        <tr>
+          <td>Monetary</td>
+          <td>{{result.rfmCutpoints[2]}}</td>
+        </tr>
+      </table>
     </div>
   </div>
 </div>

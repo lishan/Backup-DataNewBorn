@@ -12,15 +12,30 @@ angular.module('dataNewBorn')
       dateCol:"ORDERCREATIONTIME",
       idCol:"USERID",
       endDate:"2016-11-15",
-      exportCols:["USERPHONE", "USERNAME"]};
-    $scope.result="";
+      exportCols:["USERPHONE", "USERNAME", "BUSSINESSLOCATION"]};
+    $scope.result={rfmCutpoints:[], status: "未知"};
 
-    $scope.execute=function(rfmSetting){
+    $scope.buildRFMModel=function(rfmSetting){
       $http.post(
-          '/api/rfm',
+          '/api/rfm/build',
           $scope.rfmSetting
-      ).then(function(err){
-        Notification.sucess(err);
+      ).then(function(response) {
+        //Binding data
+        $scope.result = response.data;
+      }, function(response){
+        $scope.result = response.data;
+      });
+    }
+
+    $scope.updateRFMScore=function(rfmSetting){
+      $http.post(
+          '/api/rfm/update',
+          $scope.rfmSetting
+      ).then(function(response) {
+        //Binding data
+        Notification.success("更新成功");
+      }, function(response){
+        Notification.error("更新失败:" + response.message);
       });
     }
   }]);
