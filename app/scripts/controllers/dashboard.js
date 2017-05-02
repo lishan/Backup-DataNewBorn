@@ -4,7 +4,7 @@
  * Controller of the dashboard
  */
 angular.module('dataNewBorn')
-  .controller('DashboardCtrl',['$rootScope', '$scope', '$uibModal', function ($rootScope, $scope, $uibModal) {
+  .controller('DashboardCtrl',['$rootScope', '$scope', '$uibModal', 'NgTableParams', '$http', function ($rootScope, $scope, $uibModal, NgTableParams, $http) {
     $scope.openModal = ()=>{
       $uibModal.open({
         animation: true,
@@ -40,4 +40,17 @@ angular.module('dataNewBorn')
       [65, 59, 80, 81, 56, 55, 40],
       [28, 48, 40, 19, 86, 27, 90]
     ];
+    $scope.questionTable = new NgTableParams({
+      page: 1,
+      count: 10
+    }, {
+      getData: function(params) {
+        console.log(params);
+        return $http.get("/api/config/links", {}).then(function(response){
+          console.log(response.data);
+          params.total(10);
+          return response.data;
+        });
+      }
+    });
   }]);

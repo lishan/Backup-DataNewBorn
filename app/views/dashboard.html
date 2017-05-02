@@ -74,3 +74,9 @@
     </div>
   </div>
 </div>
+<table ng-table="questionTable" class="table table-condensed table-bordered table-striped">
+  <tr ng-repeat="row in $data">
+    <td data-title="'Name'">{{row.name}}</td>
+    <td data-title="'Value'">{{row.value}}</td>
+  </tr>
+</table>
