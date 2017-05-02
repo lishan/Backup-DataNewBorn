@@ -31,7 +31,8 @@ angular
     'cfp.hotkeys',
     'ui.bootstrap.datetimepicker',
     'angularMoment',
-    'chart.js'
+    'chart.js',
+    'ngTable'
   ])
   .config(function ($routeProvider) {
     $routeProvider
