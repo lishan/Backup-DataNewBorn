@@ -292,3 +292,74 @@ table a {
 .panel.panel-default {
   box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.08);
 }
+
+* {
+  box-sizing: border-box;
+}
+
+.crosstable table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  max-width: 100%;
+  border: 1px solid #d8dcf0;
+  text-align: left;
+  font-size: 12px;
+}
+
+.crosstable table > thead > tr > th,
+.crosstable table > tbody > tr > th,
+.crosstable table > tfoot > tr > th,
+.crosstable table > thead > tr > td,
+.crosstable table > tbody > tr > td,
+.crosstable table > tfoot > tr > td {
+  position: relative;
+  padding: 0 8px;
+  vertical-align: top;
+  border-top: 1px solid #d8dcf0;
+  border-right: 1px solid #d8dcf0;
+  line-height: 32px;
+  font-weight: normal;
+}
+
+.crosstable table > thead > tr > th {
+  vertical-align: bottom;
+  border-right: 1px solid #d8dcf0;
+  background-color: #f7f8fc;
+}
+
+.crosstable table > thead > tr > th:last-of-type {
+  border-right: none;
+}
+
+.crosstable table > thead > tr > th:first-of-type,
+.crosstable table > tbody > tr > td:first-of-type {
+  width: 152px;
+  background-color: #f7f8fc;
+}
+
+/*table > thead > tr > th:first-of-type:before,*/
+.crosstable table > thead > tr > th:first-of-type:after {
+  content: "";
+  position: absolute;
+  top: 23px;
+  left: -3px;
+  width: 157px;
+  -webkit-transform: rotate(17deg);
+          transform: rotate(17deg);
+  border-top: 1px solid #d8dcf0;
+}
+
+.crosstable table > thead > tr > th:first-of-type > div {
+  position: relative;
+  height: 48px;
+}
+
+.crosstable table > thead > tr > th:first-of-type > div:first-of-type {
+  float: left;
+  padding-top: 14px;
+}
+
+.crosstable table > thead > tr > th:first-of-type > div:last-of-type {
+  float: right;
+}
