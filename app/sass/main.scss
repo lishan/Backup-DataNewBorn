@@ -39,21 +39,14 @@ body {
   }
 }
 
-.equal {
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
-}
-
-.equal div[class*='col-'] {
-  flex:1 1 auto;
-  display: flex;
-}
-
-.equal div[class*='col-'] .panel {
-  flex:1 0 100%;
+a.choose,
+a.choose:hover,
+a.list-group-item:focus,
+ul#actions > li > a:hover,
+ul#quick > li > a:hover {
+  background-color: #999999;
+  color: #ffffff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
 }
 
 /* Custom page footer */

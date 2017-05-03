@@ -31,7 +31,7 @@ angular
     'cfp.hotkeys',
     'ui.bootstrap.datetimepicker',
     'angularMoment',
-    'chart.js'
+    'ngTable'
   ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -67,7 +67,7 @@ angular
         redirectTo: '/'
       });
   })
-  .config(['NotificationProvider','usSpinnerConfigProvider', '$httpProvider', 'ChartJsProvider', function (NotificationProvider, usSpinnerConfigProvider, $httpProvider, ChartJsProvider) {
+  .config(['NotificationProvider','usSpinnerConfigProvider', '$httpProvider', function (NotificationProvider, usSpinnerConfigProvider, $httpProvider) {
     NotificationProvider.setOptions({
       delay: 5000,
       startTop: 20,
