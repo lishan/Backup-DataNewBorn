@@ -35,25 +35,14 @@ body {
   padding-bottom: 19px;
 }
 
-.equal {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-}
-
-.equal div[class*='col-'] {
-  -webkit-box-flex: 1;
-      -ms-flex: 1 1 auto;
-          flex: 1 1 auto;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-}
-
-.equal div[class*='col-'] .panel {
-  -webkit-box-flex: 1;
-      -ms-flex: 1 0 100%;
-          flex: 1 0 100%;
+a.choose,
+a.choose:hover,
+a.list-group-item:focus,
+ul#actions > li > a:hover,
+ul#quick > li > a:hover {
+  background-color: #999999;
+  color: #ffffff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
 }
 
 /* Custom page footer */

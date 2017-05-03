@@ -16,67 +16,30 @@
       <div class="list-group-item container-fluid">
         <button class="wizard-button btn btn-default btn-block" href="" ng-click="openModal()">新增</button>
       </div>
-      <div class="list-group-item">
-        <a class="" href="">主题一</a>
+      <a class="list-group-item" ng-class="{true:'choose'}[selectedItem.id === item.id]" href="" ng-click="selected(item)" ng-repeat="item in themes">
+        {{item.label}}
         <button type="button" class="btn btn-default btn-xs btn-danger pull-right"><i class="glyphicon glyphicon-minus"></i></button>
-      </div>
-      <div class="list-group-item">
-        <a class="" href="">主题二</a>
-        <button type="button" class="btn btn-default btn-xs btn-danger pull-right"><i class="glyphicon glyphicon-minus"></i></button>
-      </div>
+      </a>
     </div>
   </div>
   <div class="col-md-10">
-    <div class="row equal">
-      <div class="col-md-6">
+    <div class="row" ng-if="selectedItem !== null">
+      <div ng-repeat="chart in selectedItem.chartConfigDTOList" class="col-md-{{12/selectedItem.countOfColumns}}">
         <div class="panel panel-default">
-          <div class="panel-heading">销售额</div>
+          <div class="panel-heading">{{chart.label}}</div>
           <div class="panel-body">
-            <canvas class="chart chart-pie" chart-data="data1" chart-labels="labels1" chart-options="{legend:{display:true}}" height="200">
-            </canvas>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="panel panel-default">
-          <div class="panel-heading">销售曲线</div>
-          <div class="panel-body">
-            <canvas class="chart chart-line" chart-data="data2" chart-labels="labels2" chart-series="series2" chart-options="{legend:{display:true}}" height="200">
-            </canvas>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row equal">
-      <div class="col-md-6">
-        <div class="panel panel-default">
-          <div class="panel-heading">区域对比</div>
-          <div class="panel-body">
-            <canvas class="chart chart-bar" chart-data="data3" chart-labels="labels3" chart-series="series3" height="200">
-            </canvas>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="panel panel-default">
-          <div class="panel-heading">图表</div>
-          <div class="panel-body">
-            <table class="table table-bordered" height="237">
-              <thead><tr><th>t1</th><th>t2</th><th>t2</th></tr></thead>
-              <tbody>
-              <tr><td>1</td><td>2</td><td>3</td></tr>
-              <tr><td>4</td><td>5</td><td>6</td></tr>
-              </tbody>
-            </table>
+            <div ng-if="chart.chartType === 'TABLE'">
+              {{chart}}
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
-<table ng-table="questionTable" class="table table-condensed table-bordered table-striped">
-  <tr ng-repeat="row in $data">
-    <td data-title="'Name'">{{row.name}}</td>
-    <td data-title="'Value'">{{row.value}}</td>
-  </tr>
-</table>
+<!--<table ng-table="questionTable" class="table table-condensed table-bordered table-striped">-->
+  <!--<tr ng-repeat="row in $data">-->
+    <!--<td data-title="'Name'">{{row.name}}</td>-->
+    <!--<td data-title="'Value'">{{row.value}}</td>-->
+  <!--</tr>-->
+<!--</table>-->
