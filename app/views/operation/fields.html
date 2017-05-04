@@ -1,5 +1,5 @@
 <div class="col-md-2" ng-controller="OperationFieldsCtrl">
   <ul class="list-group">
-    <li ng-repeat="item in data" class="list-group-item">{{item}}</li>
+    <li ng-repeat="item in selectedItem.model.fields" class="list-group-item">{{item.label}}</li>
   </ul>
 </div>

@@ -19,10 +19,6 @@ angular.module('dataNewBorn')
           $scope.cancel = function () {
             $uibModalInstance.dismiss('cancel')
           }
-
-          $scope.selected = (item) => {
-            $scope.selectedItem = item
-          }
         }]
       })
     }
