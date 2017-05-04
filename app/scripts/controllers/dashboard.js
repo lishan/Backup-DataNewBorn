@@ -26,7 +26,7 @@ angular.module('dataNewBorn')
       });
     };
     $scope.selectedItem = null;
-    $http.get("/api/dashboards").success((data)=>{
+    $http.get("/api/dashboards/all").success((data)=>{
       $scope.themes = data;
     });
     $scope.selected = (item)=>{
