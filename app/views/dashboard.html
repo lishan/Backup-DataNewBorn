@@ -47,26 +47,15 @@
                 <table ng-table="chart.tableParams" show-filter="true" class="table">
                   <thead>
                     <tr>
-                      <th ng-repeat="column in chart.columns" ng-show="column.visible"
-                          class="text-center sortable" ng-class="{
-                      'sort-asc': tableParams.isSortBy(column.field, 'asc'),
-                      'sort-desc': tableParams.isSortBy(column.field, 'desc')
-                    }" ng-click="tableParams.sorting(column.field, tableParams.isSortBy(column.field, 'asc') ? 'desc' : 'asc')">
-                        {{column.title}}
-                      </th>
-                    </tr>
-                    <tr>
                       <th ng-repeat="column in chart.columns"
-                          ng-show="column.visible"
-                          class="text-center sortable">
-                        <input type="text" class="form-control"
-                               ng-model="filter_dict[column.field] "/>
+                          class="text-center">
+                        {{column.title}}
                       </th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr ng-repeat="user in $data">
-                      <td ng-repeat="column in chart.columns" ng-show="column.visible" sortable="column.field">
+                      <td ng-repeat="column in chart.columns">
                         {{user[column.field]}}
                       </td>
                     </tr>
