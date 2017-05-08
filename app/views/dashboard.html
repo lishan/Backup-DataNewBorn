@@ -30,7 +30,8 @@
           <div class="panel-body" height="300">
             <div ng-switch on="chart.chartType">
               <div class="animate-switch" ng-switch-when="PIE">
-                <line-chart config="chart.config" data="chart.data"></line-chart>
+                <!--<line-chart config="chart.config" data="chart.data"></line-chart>-->
+                {{chart}}
               </div>
               <div class="animate-switch" ng-switch-when="BAR">
                 {{chart}} BAR
@@ -42,7 +43,35 @@
                 {{chart}} SCATTER
               </div>
               <div class="animate-switch" ng-switch-default>
-                {{chart}} TABLE
+                {{chart.rows}}
+                <table ng-table="chart.tableParams" show-filter="true" class="table">
+                  <thead>
+                    <tr>
+                      <th ng-repeat="column in chart.columns" ng-show="column.visible"
+                          class="text-center sortable" ng-class="{
+                      'sort-asc': tableParams.isSortBy(column.field, 'asc'),
+                      'sort-desc': tableParams.isSortBy(column.field, 'desc')
+                    }" ng-click="tableParams.sorting(column.field, tableParams.isSortBy(column.field, 'asc') ? 'desc' : 'asc')">
+                        {{column.title}}
+                      </th>
+                    </tr>
+                    <tr>
+                      <th ng-repeat="column in chart.columns"
+                          ng-show="column.visible"
+                          class="text-center sortable">
+                        <input type="text" class="form-control"
+                               ng-model="filter_dict[column.field] "/>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr ng-repeat="user in $data">
+                      <td ng-repeat="column in chart.columns" ng-show="column.visible" sortable="column.field">
+                        {{user[column.field]}}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
@@ -51,9 +80,4 @@
     </div>
   </div>
 </div>
-<!--<table ng-table="questionTable" class="table table-condensed table-bordered table-striped">-->
-<!--<tr ng-repeat="row in $data">-->
-<!--<td data-title="'Name'">{{row.name}}</td>-->
-<!--<td data-title="'Value'">{{row.value}}</td>-->
-<!--</tr>-->
-<!--</table>-->
+
