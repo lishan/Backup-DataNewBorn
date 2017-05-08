@@ -29,7 +29,8 @@
     "bootstrap-ui-datetime-picker": "^2.5.4",
     "angular-moment": "^1.0.1",
     "bootstrap-tokenfield": "bootstrap-tokenfield-ocsp#^0.12.2",
-    "bootstrap-application-wizard": "bootstrap-application-wizard-ocsp#^1.0.4"
+    "bootstrap-application-wizard": "bootstrap-application-wizard-ocsp#^1.0.4",
+    "angular-echarts":"latest"
   },
   "devDependencies": {
     "angular-mocks": "^1.4.0"
