@@ -20,7 +20,6 @@ angular
     'ngTouch',
     'pascalprecht.translate',
     'ngFileUpload',
-    "isteven-multi-select",
     "dndLists",
     'ui.bootstrap',
     'ui-notification',
@@ -32,7 +31,8 @@ angular
     'ui.bootstrap.datetimepicker',
     'angularMoment',
     'ngTable',
-    'angular-echarts'
+    'angular-echarts',
+    'angularjs-dropdown-multiselect'
   ])
   .config(function ($routeProvider) {
     $routeProvider

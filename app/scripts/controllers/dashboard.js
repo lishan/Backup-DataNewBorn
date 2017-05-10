@@ -4,32 +4,82 @@
  * Controller of the dashboard
  */
 
-angular.module('dataNewBorn').controller('DashboardCtrl', ['$rootScope', '$scope', '$uibModal', 'NgTableParams', '$http', '$filter', '$httpParamSerializerJQLike', function ($rootScope, $scope, $uibModal, NgTableParams, $http, $filter, $httpParamSerializerJQLike) {
-  $rootScope.init('dashboard')
+angular.module('dataNewBorn').controller('DashboardCtrl', ['$rootScope', '$scope', '$uibModal', 'NgTableParams', '$http', '$filter', '$httpParamSerializerJQLike', 'Notification', function ($rootScope, $scope, $uibModal, NgTableParams, $http, $filter, $httpParamSerializerJQLike, Notification) {
+  $rootScope.init('dashboard');
   $scope.openModal = function () {
     $uibModal.open({
       animation: true,
       ariaLabelledBy: 'modal-title-bottom',
       ariaDescribedBy: 'modal-body-bottom',
-      templateUrl: 'myModalContent.html',
-      size: 'md',
+      templateUrl: 'myModalContent1.html',
+      size: 'lg',
       scope: $scope,
       controller: ['$scope', '$uibModalInstance', function ($scope, $uibModalInstance) {
-        $scope.content = 'This is modal content'
+        $scope.dashboard = {
+          charts: []
+        };
         $scope.ok = function () {
-          $uibModalInstance.close()
-        }
-
+          $http.post('/api/dashboards/', $scope.dashboard).success(function(){
+            $uibModalInstance.close();
+            $http.get('/api/dashboards/all').success(function (data) {
+              $scope.themes = data;
+              $scope.selectedItem = null;
+              Notification.success("新建成功");
+            });
+          });
+        };
         $scope.cancel = function () {
           $uibModalInstance.dismiss('cancel')
-        }
+        };
       }]
     })
-  }
-  $scope.selectedItem = null
-  $http.get('/api/dashboards/all').success(function (data) {
-    $scope.themes = data
-  })
+  };
+  $scope.edit = function (item) {
+    $uibModal.open({
+      animation: true,
+      ariaLabelledBy: 'modal-title-bottom',
+      ariaDescribedBy: 'modal-body-bottom',
+      templateUrl: 'myModalContent2.html',
+      size: 'lg',
+      scope: $scope,
+      controller: ['$scope', '$uibModalInstance', function ($scope, $uibModalInstance) {
+        $scope.dashboard = item;
+        console.log($scope.dashboard);
+        $scope.ok = function () {
+          $http.put('/api/dashboards/', $scope.dashboard).success(function(){
+            $uibModalInstance.close();
+            $http.get('/api/dashboards/all').success(function (data) {
+              $scope.themes = data;
+              $scope.selectedItem = null;
+              Notification.success("修改成功");
+            });
+          });
+        };
+        $scope.cancel = function () {
+          $uibModalInstance.dismiss('cancel')
+        };
+      }]
+    })
+  };
+  $scope.selectedItem = null;
+  $http.get('/api/dashboards').success(function (data) {
+    $scope.themes = data;
+  });
+  $http.get('/api/chart-configs').success(function(data){
+    $scope.charts = data;
+  });
+
+  $scope.delete = function(item){
+    if(confirm(`确定删除Dashboard ${item.label}吗？`)){
+      $http.delete('/api/dashboards/' + item.id).success(function(){
+        $http.get('/api/dashboards/all').success(function (data) {
+          $scope.themes = data;
+          $scope.selectedItem = null;
+          Notification.success("删除成功");
+        });
+      });
+    }
+  };
   $scope.selected = function (item) {
     $scope.selectedItem = item
     $.each(item.chartConfigDTOList, function (index, chart) {
@@ -38,7 +88,7 @@ angular.module('dataNewBorn').controller('DashboardCtrl', ['$rootScope', '$scope
           chart.columns = ret.data.columns
           chart.tableParams = new NgTableParams({
             page: 1, // show first page
-            count: 10 // count per page         
+            count: 10 // count per page
           }, {
             total: ret.data.totalCount,
             getData: function getData (params) {
