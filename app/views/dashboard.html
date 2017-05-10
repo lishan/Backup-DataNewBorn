@@ -27,20 +27,19 @@
       <div ng-repeat="chart in selectedItem.chartConfigDTOList" class="col-md-{{12/selectedItem.countOfColumns}}">
         <div class="panel panel-default">
           <div class="panel-heading">{{chart.label}}</div>
-          <div class="panel-body" height="300">
+          <div class="panel-body" >
             <div ng-switch on="chart.chartType">
-              <div class="animate-switch" ng-switch-when="PIE">
-                <!--<line-chart config="chart.config" data="chart.data"></line-chart>-->
-                {{chart}}
+              <div class="animate-switch" ng-switch-when="PIE" >
+                <pie-chart config="chart.config" data="chart.data" height="300"></pie-chart>
               </div>
               <div class="animate-switch" ng-switch-when="BAR">
-                {{chart}} BAR
+                <bar-chart config="chart.config" data="chart.data" height="300"></bar-chart>
               </div>
               <div class="animate-switch" ng-switch-when="LINE">
-                {{chart}} LINE
-              </div>
+                 <line-chart config="chart.config" data="chart.data" height="300"></line-chart>
+             </div>
               <div class="animate-switch" ng-switch-when="SCATTER">
-                {{chart}} SCATTER
+                 <pie-chart config="chart.config" data="chart.data" height="300"></pie-chart>
               </div>
               <div class="animate-switch" ng-switch-default>
                 {{chart.rows}}
