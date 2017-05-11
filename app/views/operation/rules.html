@@ -4,10 +4,12 @@
       <div class="form-group">
         <label>横轴</label>
         <tokenfield ng-model="fields" required="true"></tokenfield>
+        <input type="text" ng-model="selectedItem.xFields">
       </div>
       <div class="form-group">
         <label>纵轴</label>
         <tokenfield ng-model="fields" required="true"></tokenfield>
+        <input type="text" ng-model="selectedItem.yFields">
       </div>
     </div>
   </div>
@@ -21,6 +23,23 @@
           </div>
           <div class="col-md-8">
             <input type="text" class="form-control">
+          </div>
+          <div class="col-md-1">
+            <button type="button" class="btn btn-default btn-sm btn-success pull-right"><i class="glyphicon glyphicon-plus"></i></button>
+          </div>
+          <div class="col-md-1">
+            <button type="button" class="btn btn-default btn-sm btn-danger pull-right"><i class="glyphicon glyphicon-minus"></i></button>
+          </div>
+        </div>
+        <div class="row" ng-repeat="statisticField in selectedItem.statisticFields">
+          <div class="col-md-2">
+            <label>{{statisticField.label}}</label>
+          </div>
+          <div class="col-md-4">
+            <label>{{statisticField.method}}</label>
+          </div>
+          <div class="col-md-4">
+            <label>{{statisticField.field}}</label>
           </div>
           <div class="col-md-1">
             <button type="button" class="btn btn-default btn-sm btn-success pull-right"><i class="glyphicon glyphicon-plus"></i></button>
@@ -48,6 +67,14 @@
           </div>
           <div class="col-md-1">
             <button type="button" class="btn btn-sm btn-danger pull-right"><i class="glyphicon glyphicon-minus"></i></button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-2">
+            <label>过滤条件json</label>
+          </div>
+          <div class="col-md-8">
+             <input type="text"  class="form-control" ng-model="selectedItem.queryConditions">
           </div>
         </div>
       </div>
