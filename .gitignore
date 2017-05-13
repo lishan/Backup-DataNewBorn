@@ -17,3 +17,5 @@ log/
 users.dat
 .tmp/
 dataNewBorn.war
+/backend/backend/
+.vscode/launch.json

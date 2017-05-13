@@ -1,13 +1,51 @@
-<script type="text/ng-template" id="myModalContent.html">
+<script type="text/ng-template" id="myModalContent1.html">
   <div class="modal-header">
-    <h3 class="modal-title" id="modal-title">I'm a modal!</h3>
+    <h3 class="modal-title" id="modal-title">创建仪表盘</h3>
   </div>
   <div class="modal-body" id="modal-body">
-    <p>{{content}}</p>
+    <div class="form-group">
+      <label>名称</label>
+      <input class="form-control" type="text" ng-model="dashboard.name">
+    </div>
+    <div class="form-group">
+      <label>标签</label>
+      <input class="form-control" type="text" ng-model="dashboard.label">
+    </div>
+    <div class="form-group">
+      <label>图表</label>
+      <div ng-dropdown-multiselect="" options="charts" selected-model="dashboard.charts"></div>
+    </div>
   </div>
   <div class="modal-footer">
-    <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
-    <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+    <button class="btn btn-primary" type="button" ng-click="ok()">确定</button>
+    <button class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
+  </div>
+</script>
+<script type="text/ng-template" id="myModalContent2.html">
+  <div class="modal-header">
+    <h3 class="modal-title">修改仪表盘</h3>
+  </div>
+  <div class="modal-body">
+    <div class="form-group">
+      <label>ID</label>
+      <input class="form-control" type="text" ng-model="dashboard.id" disabled>
+    </div>
+    <div class="form-group">
+      <label>名称</label>
+      <input class="form-control" type="text" ng-model="dashboard.name">
+    </div>
+    <div class="form-group">
+      <label>标签</label>
+      <input class="form-control" type="text" ng-model="dashboard.label">
+    </div>
+    <div class="form-group">
+      <label>图表</label>
+      <div ng-dropdown-multiselect="" options="charts" selected-model="dashboard.charts"></div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="ok()">确定</button>
+    <button class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
   </div>
 </script>
 <div class="row">
@@ -18,7 +56,9 @@
       </div>
       <a class="list-group-item" ng-class="{true:'choose'}[selectedItem.id === item.id]" href="" ng-click="selected(item)" ng-repeat="item in themes">
         {{item.label}}
-        <button type="button" class="btn btn-default btn-xs btn-danger pull-right"><i class="glyphicon glyphicon-minus"></i></button>
+        <button type="button" class="btn btn-default btn-xs btn-danger pull-right" ng-click="delete(item)"><i class="glyphicon glyphicon-minus"></i></button>
+        <span class="pull-right">&nbsp;</span>
+        <button type="button" class="btn btn-default btn-xs btn-warning pull-right" ng-click="edit(item)"><i class="glyphicon glyphicon-edit"></i></button>
       </a>
     </div>
   </div>
@@ -27,19 +67,45 @@
       <div ng-repeat="chart in selectedItem.chartConfigDTOList" class="col-md-{{12/selectedItem.countOfColumns}}">
         <div class="panel panel-default">
           <div class="panel-heading">{{chart.label}}</div>
-          <div class="panel-body">
-            <div ng-if="chart.chartType === 'TABLE'">
-              {{chart}}
-            </div>edccx                                                                                                                                                                                                                                                                                                              
+          <div class="panel-body" >
+            <div ng-switch on="chart.chartType">
+              <div class="animate-switch" ng-switch-when="PIE" >
+                <pie-chart config="chart.config" data="chart.data" height="300"></pie-chart>
+              </div>
+              <div class="animate-switch" ng-switch-when="BAR">
+                <bar-chart config="chart.config" data="chart.data" height="300"></bar-chart>
+              </div>
+              <div class="animate-switch" ng-switch-when="LINE">
+                 <line-chart config="chart.config" data="chart.data" height="300"></line-chart>
+             </div>
+              <div class="animate-switch" ng-switch-when="SCATTER">
+                 <pie-chart config="chart.config" data="chart.data" height="300"></pie-chart>
+              </div>
+              <div class="animate-switch" ng-switch-default>
+                {{chart.rows}}
+                <table ng-table="chart.tableParams" show-filter="true" class="table">
+                  <thead>
+                    <tr>
+                      <th ng-repeat="column in chart.columns"
+                          class="text-center">
+                        {{column.title}}
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr ng-repeat="user in $data">
+                      <td ng-repeat="column in chart.columns">
+                        {{user[column.field]}}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
-<!--<table ng-table="questionTable" class="table table-condensed table-bordered table-striped">-->
-  <!--<tr ng-repeat="row in $data">-->
-    <!--<td data-title="'Name'">{{row.name}}</td>-->
-    <!--<td data-title="'Value'">{{row.value}}</td>-->
-  <!--</tr>-->
-<!--</table>-->
+

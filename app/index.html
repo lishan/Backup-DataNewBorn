@@ -10,7 +10,6 @@
   <!-- bower:css -->
   <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
   <link rel="stylesheet" href="bower_components/bootstrap-sidebar/dist/css/sidebar.css" />
-  <link rel="stylesheet" href="bower_components/isteven-angular-multiselect/isteven-multi-select.css" />
   <link rel="stylesheet" href="bower_components/angular-ui-notification/dist/angular-ui-notification.css" />
   <link rel="stylesheet" href="bower_components/angular-ui-select/dist/select.css" />
   <link rel="stylesheet" href="bower_components/angular-toggle-switch/angular-toggle-switch.css" />
@@ -146,7 +145,6 @@
 <script src="bower_components/bootstrap-sidebar/dist/js/sidebar.js"></script>
 <script src="bower_components/angular-translate/angular-translate.js"></script>
 <script src="bower_components/ng-file-upload/ng-file-upload.js"></script>
-<script src="bower_components/isteven-angular-multiselect/isteven-multi-select.js"></script>
 <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
 <script src="bower_components/angular-ui-notification/dist/angular-ui-notification.js"></script>
 <script src="bower_components/spin.js/spin.js"></script>
@@ -159,11 +157,14 @@
 <script src="bower_components/angular-moment/angular-moment.js"></script>
 <script src="bower_components/bootstrap-tokenfield/dist/bootstrap-tokenfield.js"></script>
 <script src="bower_components/bootstrap-application-wizard/dist/bootstrap-wizard.js"></script>
+<script src="bower_components/angular-echarts/dist/angular-echarts.min.js"></script>
+<script src="bower_components/angularjs-dropdown-multiselect/src/angularjs-dropdown-multiselect.js"></script>
 <!-- endbower -->
 <!-- endbuild -->
 
 <!-- build:js(app) scripts/scripts.js -->
 <!-- 3rd party packages should lay before scripts in projects-->
+<script src="bower_components/echarts/dist/echarts.js"></script>
 <script src="bower_components/angular-drag-and-drop-lists/angular-drag-and-drop-lists.js"></script>
 <script src="bower_components/mermaid/dist/mermaid.js"></script>
 <script src="3rd/ng-table.js"></script>
@@ -178,7 +179,7 @@
 <script src="build-scripts/services/usInterceptor.js"></script>
 <script src="build-scripts/services/urlInterceptor.js"></script>
 <script src="build-scripts/controllers/operation/fields.js"></script>
-<script src="build-scripts/controllers/operation/sidebar.js"></script> 
+<script src="build-scripts/controllers/operation/sidebar.js"></script>
 <script src="build-scripts/controllers/operation/rules.js"></script>
 <script src="build-scripts/controllers/operation/pivottable.js"></script>
 <script src="build-scripts/controllers/rfm.js"></script>
