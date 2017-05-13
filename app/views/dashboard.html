@@ -69,7 +69,7 @@
           <div class="panel-heading">{{chart.label}}</div>
           <div class="panel-body" >
             <div ng-switch on="chart.chartType">
-              <div class="animate-switch" ng-switch-when="PIE" >
+              <div class="animate-switch" ng-switch-when="PIE"  >
                 <pie-chart config="chart.config" data="chart.data" height="300"></pie-chart>
               </div>
               <div class="animate-switch" ng-switch-when="BAR">
@@ -81,8 +81,7 @@
               <div class="animate-switch" ng-switch-when="SCATTER">
                  <pie-chart config="chart.config" data="chart.data" height="300"></pie-chart>
               </div>
-              <div class="animate-switch" ng-switch-default>
-                {{chart.rows}}
+              <div class="animate-switch" ng-switch-default style="overflow:scroll; height:400px;">
                 <table ng-table="chart.tableParams" show-filter="true" class="table">
                   <thead>
                     <tr>

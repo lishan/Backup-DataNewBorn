@@ -64,7 +64,7 @@ angular.module('dataNewBorn').controller('DashboardCtrl', ['$rootScope', '$scope
   $scope.selectedItem = null;
   $http.get('/api/dashboards/all').success(function (data) {
     $scope.themes = data;
-    $scope.selectedItem = data[0];
+    $scope.selected(data[0]);
   });
   $http.get('/api/chart-configs').success(function(data){
     $scope.charts = data;

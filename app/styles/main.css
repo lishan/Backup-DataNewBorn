@@ -328,17 +328,6 @@ table a {
 }
 
 /*table > thead > tr > th:first-of-type:before,*/
-.crosstable table > thead > tr > th:first-of-type:after {
-  content: "";
-  position: absolute;
-  top: 23px;
-  left: -3px;
-  width: 157px;
-  -webkit-transform: rotate(17deg);
-          transform: rotate(17deg);
-  border-top: 1px solid #d8dcf0;
-}
-
 .crosstable table > thead > tr > th:first-of-type > div {
   position: relative;
   height: 48px;

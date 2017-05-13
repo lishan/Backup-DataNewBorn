@@ -18,11 +18,14 @@
     <div class="panel-body">
       <div class="form-group">
         <div class="row">
-          <div class="col-md-2">
-            <label>销售额</label>
+          <div class="col-md-3">
+            <input type="text" class="form-control" placeholder="请输入">
           </div>
-          <div class="col-md-8">
-            <input type="text" class="form-control">
+          <div class="col-md-3">
+            <input type="text" class="form-control" placeholder="字段下拉输入">
+          </div>          
+          <div class="col-md-4">
+            <input type="text" class="form-control" placeholder="统计方法下拉输入">
           </div>
           <div class="col-md-1">
             <button type="button" class="btn btn-default btn-sm btn-success pull-right"><i class="glyphicon glyphicon-plus"></i></button>
@@ -31,7 +34,7 @@
             <button type="button" class="btn btn-default btn-sm btn-danger pull-right"><i class="glyphicon glyphicon-minus"></i></button>
           </div>
         </div>
-        <div class="row" ng-repeat="statisticField in selectedItem.statisticFields">
+        <!--<div class="row" ng-repeat="statisticField in selectedItem.statisticFields">
           <div class="col-md-2">
             <label>{{statisticField.label}}</label>
           </div>
@@ -47,7 +50,7 @@
           <div class="col-md-1">
             <button type="button" class="btn btn-default btn-sm btn-danger pull-right"><i class="glyphicon glyphicon-minus"></i></button>
           </div>
-        </div>
+        </div>-->
       </div>
     </div>
   </div>
