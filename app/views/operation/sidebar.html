@@ -1,25 +1,75 @@
 <div class="col-md-2" ng-controller="OperationSidebarCtrl">
-  <script type="text/ng-template" id="myModalContent.html">
+  <script type="text/ng-template" id="createContent.html">
     <div class="modal-header">
-      <h3 class="modal-title" id="modal-title">I'm a modal!</h3>
+      <h3 class="modal-title">创建</h3>
     </div>
-    <div class="modal-body" id="modal-body">
-      <p>{{content}}</p>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>名称</label>
+        <input class="form-control" type="text" ng-model="item.name">
+      </div>
+      <div class="form-group">
+        <label>标签</label>
+        <input class="form-control" type="text" ng-model="item.label">
+      </div>
+      <div class="form-group">
+        <label>模型</label>
+        <ui-select ng-model="item.model">
+          <ui-select-match>
+            <span ng-bind="$select.selected.dataModelName"></span>
+          </ui-select-match>
+          <ui-select-choices
+            repeat="data in (dataModels | filter: $select.search) track by data.id">
+            <span ng-bind="data.dataModelName"></span>
+          </ui-select-choices>
+        </ui-select>
+      </div>
     </div>
     <div class="modal-footer">
-      <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
-      <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+      <button class="btn btn-primary" type="button" ng-click="ok()">确定</button>
+      <button class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
+    </div>
+  </script>
+  <script type="text/ng-template" id="updateContent.html">
+    <div class="modal-header">
+      <h3 class="modal-title">修改</h3>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>名称</label>
+        <input class="form-control" type="text" ng-model="item.name">
+      </div>
+      <div class="form-group">
+        <label>标签</label>
+        <input class="form-control" type="text" ng-model="item.label">
+      </div>
+      <div class="form-group">
+        <label>模型</label>
+        <ui-select ng-model="item.model">
+          <ui-select-match>
+            <span ng-bind="$select.selected.dataModelName"></span>
+          </ui-select-match>
+          <ui-select-choices
+            repeat="data in (dataModels | filter: $select.search) track by data.id">
+            <span ng-bind="data.dataModelName"></span>
+          </ui-select-choices>
+        </ui-select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" type="button" ng-click="ok()">确定</button>
+      <button class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
     </div>
   </script>
   <div class="list-group">
     <div class="list-group-item container-fluid">
-      <button class="wizard-button btn btn-default btn-block" href="" ng-click="openModal()">新增</button>
+      <button class="wizard-button btn btn-default btn-block" href="" ng-click="openCreateModal()">新增</button>
     </div>
-
     <a class="list-group-item" ng-class="{true:'choose'}[selectedItem.id === item.id]" href="" ng-click="selected(item)" ng-repeat="item in configs">
       {{item.label}}
       <button type="button" class="btn btn-default btn-xs btn-danger pull-right"><i class="glyphicon glyphicon-minus"></i></button>
+      <span class="pull-right">&nbsp;</span>
+      <button type="button" class="btn btn-default btn-xs btn-warning pull-right" ng-click="openUpdateModal(item)"><i class="glyphicon glyphicon-edit"></i></button>
     </a>
-
   </div>
 </div>

@@ -1,0 +1,21 @@
+<div class="row">
+  <ng-include src="'views/operation/sidebar.html'"></ng-include>
+  <div class="col-md-10">
+    <div class="row" ng-if="selectedItem !== null">
+      <div class="container-fluid">
+        <ng-include src="'views/operation/rules.html'"></ng-include>
+        <div class="panel panel-default">
+          <div class="panel-heading">透视图</div>
+          <div class="panel-body">
+            <div class="form-group">
+              <button type="button" class="btn btn-success pull-right">确定</button>
+              <div class="pull-right">&nbsp;</div>
+              <button type="button" class="btn btn-default pull-right">添加到图标库</button>
+            </div>
+            <div><ng-include src="'views/operation/pivottable.html'"></ng-include></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
