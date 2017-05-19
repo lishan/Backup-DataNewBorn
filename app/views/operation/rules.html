@@ -15,15 +15,15 @@
     <div class="panel-heading">统计值</div>
     <div class="panel-body">
       <div class="form-group">
-        <div class="row">
+        <div class="row" ng-repeat="statField in selectedItem.statisticFields">
           <div class="col-md-3">
-            <input type="text" class="form-control" placeholder="请输入">
+            <input type="text" class="form-control" placeholder="请输入" ng-model="statField.label">
           </div>
           <div class="col-md-3">
-            <input type="text" class="form-control" placeholder="字段下拉输入">
+            <input type="text" class="form-control" placeholder="字段下拉输入" ng-model="statField.field" ng-readonly="true">
           </div>
           <div class="col-md-4">
-            <input type="text" class="form-control" placeholder="统计方法下拉输入">
+            <select ng-model="statField.method" ng-options="statisticMethod.name for statisticMethod in statisticMethods"></select>
           </div>
           <div class="col-md-2">
             <button type="button" class="btn btn-default btn-sm btn-danger pull-right"><i class="glyphicon glyphicon-minus"></i></button>
@@ -54,26 +54,39 @@
     <div class="panel-heading">过滤条件</div>
     <div class="panel-body">
       <div class="form-group">
+        <div class="row" ng-repeat="condition in selectedItem.conditions">
+          <div class="col-md-2">
+            <label>{{condition.name}}</label>
+          </div>
+          <div class="col-md-8">
+            <input type="text" class="form-control" placeholder="最小值" ng-model="condition.value">
+          </div>
+            <div class="col-md-2">
+            <button type="button" class="btn btn-default btn-sm btn-danger pull-right"><i class="glyphicon glyphicon-minus"></i></button>
+            <span class="pull-right">&nbsp;</span>
+            <button type="button" class="btn btn-default btn-sm btn-success pull-right"><i class="glyphicon glyphicon-plus"></i></button>
+          </div>
+        </div>
         <!--<div class="row">-->
-          <!--<div class="col-md-2">-->
-            <!--<label>销售额</label>-->
-          <!--</div>-->
-          <!--<div class="col-md-8">-->
-            <!--<input type="text" class="form-control">-->
-          <!--</div>-->
-          <!--<div class="col-md-1">-->
-            <!--<button type="button" class="btn btn-sm btn-success pull-right"><i class="glyphicon glyphicon-plus"></i></button>-->
-          <!--</div>-->
-          <!--<div class="col-md-1">-->
-            <!--<button type="button" class="btn btn-sm btn-danger pull-right"><i class="glyphicon glyphicon-minus"></i></button>-->
-          <!--</div>-->
+        <!--<div class="col-md-2">-->
+        <!--<label>销售额</label>-->
+        <!--</div>-->
+        <!--<div class="col-md-8">-->
+        <!--<input type="text" class="form-control">-->
+        <!--</div>-->
+        <!--<div class="col-md-1">-->
+        <!--<button type="button" class="btn btn-sm btn-success pull-right"><i class="glyphicon glyphicon-plus"></i></button>-->
+        <!--</div>-->
+        <!--<div class="col-md-1">-->
+        <!--<button type="button" class="btn btn-sm btn-danger pull-right"><i class="glyphicon glyphicon-minus"></i></button>-->
+        <!--</div>-->
         <!--</div>-->
         <div class="row">
           <div class="col-md-2">
             <label>过滤条件json</label>
           </div>
           <div class="col-md-8">
-             <input type="text"  class="form-control" ng-model="selectedItem.queryConditions">
+            <input type="text" class="form-control" ng-model="selectedItem.queryConditions">
           </div>
         </div>
       </div>

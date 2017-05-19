@@ -8,7 +8,8 @@
 
         <tbody>
              <tr ng-repeat="dataRow in tableDataRows">
-                <th ng-repeat="item in dataRow track by $index">{{item}}</th>
+                <td ng-repeat="headerItem in dataRow.headers" rowspan="{{headerItem.rowspan}}" colspan="{{headerItem.colspan}}" name="{{headerItem.name}}">{{headerItem.label}}</td>
+                <td ng-repeat="rowItem in dataRow.datas track by $index">{{rowItem}}</td>
             </tr>
         </tbody>
     </table>

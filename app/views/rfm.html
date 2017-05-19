@@ -1,84 +1,57 @@
-<div class="well">
-  <div class="panel panel-default">
-    <div class="panel-heading">参数设置</div>
-    <div class="panel-body">
-      <div class="row">
-        <div class="col-xs-1">
-          <span class="label label-default">Recency</span>
-        </div>
-        <div class="col-xs-3">
-          <input type="number" class="form-control" ng-model="rfmSetting.binsList[0]">
-        </div>
-        <div class="col-xs-3">
-          <input type="number" class="form-control" ng-model="rfmWeights.weights[0]">
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-xs-1">
-          <span class="label label-default">Frequency</span>
-        </div>
-        <div class="col-xs-3">
-          <input type="number" class="form-control" ng-model="rfmSetting.binsList[1]">
-        </div>
-        <div class="col-xs-3">
-          <input type="number" class="form-control" ng-model="rfmWeights.weights[1]">
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-xs-1">
-          <span class="label label-default">Monetary</span>
-        </div>
-        <div class="col-xs-3">
-          <input type="number" class="form-control" ng-model="rfmSetting.binsList[2]">
-        </div>
-        <div class="col-xs-3">
-          <input type="number" class="form-control" ng-model="rfmWeights.weights[2]">
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-xs-1">
-          <span class="label label-default">StartDate</span>
-        </div>
-        <div class="col-xs-3">
-          <input type="text" class="form-control" ng-model="rfmSetting.startDate">
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-xs-1">
-          <span class="label label-default">EndDate</span>
-        </div>
-        <div class="col-xs-3">
-          <input type="text" class="form-control" ng-model="rfmSetting.endDate">
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-xs-2 col-xs-offset-10 btn-group btn-group-lg">
-          <button type="button" class="btn btn-default" ng-click="buildRFMModel(rfmSetting)">执行</button>
-          <button type="button" class="btn btn-default" ng-click="updateRFMScore(rfmSetting)">更新得分</button>
-        </div>
-      </div>
+<div class="row">
+  <div class="container-fluid">
+    <div class="form-group">
+      <label>请选择需要分析的时间区间:</label> 从
+      <input type="date" name="input" ng-model="startdate" placeholder="yyyy-MM-dd" min="2016-01-01" max="2016-12-31" required
+      /> 到 <input type="date" name="input" ng-model="enddate" placeholder="yyyy-MM-dd" min="2016-01-01" max="2016-12-31"
+        required />
+      <button type="button" class="btn btn-success">执行</button>
     </div>
   </div>
-  <div class="panel panel-default" ng-model="result">
-    <div class="panel-heading">结果: <em>{{result.status}}</em></div>
-    <div class="panel-body">      
-      <table class="table">
-        <tr>
-          <th>名称</th>
-          <th>区间</th>
-        </tr>
-        <tr>
-          <td>Recency</td>
-          <td>{{result.rfmCutpoints[0]}}</td>
-        </tr>
-        <tr>
-          <td>Frequency</td>
-          <td>{{result.rfmCutpoints[1]}}</td>
-        </tr>
-        <tr>
-          <td>Monetary</td>
-          <td>{{result.rfmCutpoints[2]}}</td>
-        </tr>
+</div>
+<div class="well well-sm text-center text-primary" style="font-size: 24px;">
+  <span class="glyphicon glyphicon-signal"></span> 商圈销售状况
+</div>
+<div class="row">
+  <div ng-repeat="chart in charts" class="col-md-4">
+    <bar-chart config="chart.config" data="chart.data" height="400"></bar-chart>
+  </div>
+</div>
+<br>
+<div class="well well-sm text-center text-success" style="font-size: 24px;">
+  <span class="glyphicon glyphicon-hand-right"></span> 价值客户推荐
+</div>
+<label>请选择商圈:
+    <select ng-model="selectedLocation" ng-change="selectLocation()"
+      ng-options="location.name for location in locations"></select>
+  </label>
+<br>
+<div class="row">
+  <div ng-repeat="table in tables" class="col-md-4">
+    <h5><span class="label label-primary">客户分类：</span> {{table.type.category}}<span><span class="glyphicon glyphicon-star" style="color: rgb(212, 106, 64);"></span><span class="glyphicon glyphicon-star" style="color: rgb(212, 106, 64);"></span><span class="glyphicon glyphicon-star" style="color: rgb(212, 106, 64);"></span><span class="glyphicon glyphicon-star" style="color: rgb(212, 106, 64);"></span><span class="glyphicon glyphicon-star" style="color: rgb(212, 106, 64);"></span></span>
+    </h5>
+    <h5><span class="label label-primary">客户特征：</span> {{table.type.characters}}</h5>
+    <h5><span class="label label-primary">客户人数：</span> {{table.totalCount}} / {{table.allCount}}</h5>
+    <div class="row container-fluid">
+      <button type="button" class="btn btn-success" ng-click="export({{table.id}})">导出</button>
+    </div>
+    <br>
+    <div style="overflow:scroll; height:400px;">
+      <table ng-table="table.tableParams" show-filter="true" class="table table-condensed table-bordered table-striped">
+        <thead>
+          <tr>
+            <th ng-repeat="column in table.columns" class="text-center">
+              {{column.title}}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="user in $data">
+            <td ng-repeat="column in table.columns">
+              {{user[column.field]}}
+            </td>
+          </tr>
+        </tbody>
       </table>
     </div>
   </div>
