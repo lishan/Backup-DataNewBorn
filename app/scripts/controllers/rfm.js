@@ -82,11 +82,11 @@ angular.module('dataNewBorn')
         }
         table.columns = [
           {title: '用户id',
-          field: 'USERID'},
+          field: 'userid'},
           {title: '用户名',
-          field: 'USERNAME'},
+          field: 'username'},
           {title: '电话号码',
-          field: 'PHONE'}
+          field: 'phone'}
         ]
         $http({
           method: 'POST',
@@ -121,8 +121,8 @@ angular.module('dataNewBorn')
         })
         $scope.tables.push(table)
       }
-    }
-    $scope.selectLocation()
+    };
+    $scope.selectLocation();
     // TODO
     $scope.startdate = new Date(2016, 10, 1)
     $scope.enddate = new Date(2016, 10, 14)
@@ -140,7 +140,7 @@ angular.module('dataNewBorn')
         Notification.success('导出成功！')
         $window.location.href = '/api/rfm/download/file?fileName=' + ret.data.file + '&label=' + label
       })
-    }
+    };
 
     $scope.buildRFMModel = function () {
       $http.post(
@@ -152,16 +152,5 @@ angular.module('dataNewBorn')
       }, function (response) {
         $scope.result = response.data
       })
-    }
-    $scope.updateRFMScore = function () {
-      $http.post(
-        '/api/rfm/update',
-        $scope.rfmWeights
-      ).then(function (response) {
-        // Binding data
-        Notification.success('更新成功')
-      }, function (response) {
-        Notification.error('更新失败:' + response.message)
-      })
-    }
+    };
   }])
