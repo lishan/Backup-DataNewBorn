@@ -6,30 +6,32 @@
 angular.module('dataNewBorn')
   .controller('RfmCtrl', ['$rootScope', '$scope', '$http', 'Notification', 'NgTableParams', '$httpParamSerializerJQLike', '$window', function ($rootScope, $scope, $http, Notification, NgTableParams, $httpParamSerializerJQLike, $window) {
     $rootScope.init('rfm')
-    $http.get('/api/rfm/statistic/charts/').then(function (ret) {
-      $scope.charts = []
-      let labels = ['金额', '订单量', '订单平均金额']
-      $.each(ret.data, function (index, chartData) {
-        let chart = {}
-        chart.config = {
-          title: labels[index],
-          showTitle: false
-        }
-        let datapoints = []
-        $.each(chartData, function (index, dataRow) {
-          let names = Object.getOwnPropertyNames(dataRow)
-          datapoints.push({
-            x: dataRow[names[0]],
-            y: dataRow[names[1]]
+    $scope.show = function () {
+      $http.get('/api/rfm/statistic/charts/').then(function (ret) {
+        $scope.charts = []
+        let labels = ['金额', '订单量', '订单平均金额']
+        $.each(ret.data, function (index, chartData) {
+          let chart = {}
+          chart.config = {
+            title: labels[index],
+            showTitle: false
+          }
+          let datapoints = []
+          $.each(chartData, function (index, dataRow) {
+            let names = Object.getOwnPropertyNames(dataRow)
+            datapoints.push({
+              x: dataRow[names[0]],
+              y: dataRow[names[1]]
+            })
           })
+          chart.data = [{
+            datapoints: datapoints
+          }]
+          $scope.charts.push(chart)
         })
-        chart.data = [{
-          datapoints: datapoints
-        }]
-        $scope.charts.push(chart)
       })
-    })
-
+    }
+    $scope.show()
     $scope.locations = [
       {name: 'GX高新一中商圈', shade: 'dark'},
       {name: 'GX高新路商圈', shade: 'light'},
@@ -109,7 +111,7 @@ angular.module('dataNewBorn')
     $scope.enddate = new Date(2016, 10, 14)
 
     $scope.export = function (tableId) {
-      let label = $scope.types[tableId].category + ".xls"
+      let label = $scope.types[tableId].category + '.xls'
       $http({
         method: 'POST',
         url: '/api/rfm/table/' + tableId + '/export',
@@ -119,18 +121,17 @@ angular.module('dataNewBorn')
         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
       }).then(function (ret) {
         Notification.success('导出成功！')
-        $window.location.href = '/api/rfm/download/file?fileName=' + ret.data.file + '&label=' + label;
+        $window.location.href = '/api/rfm/download/file?fileName=' + ret.data.file + '&label=' + label
       })
     }
 
     $scope.buildRFMModel = function () {
       $http.post(
-        '/api/rfm/build',
-        $scope.rfmSetting
+        '/api/rfm/build'
       ).then(function (response) {
         // Binding data
         $scope.result = response.data
-        $scope.updateRFMScore()
+        $scope.show()
       }, function (response) {
         $scope.result = response.data
       })
