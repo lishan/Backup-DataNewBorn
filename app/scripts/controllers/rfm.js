@@ -6,6 +6,23 @@
 angular.module('dataNewBorn')
   .controller('RfmCtrl', ['$rootScope', '$scope', '$http', 'Notification', 'NgTableParams', '$httpParamSerializerJQLike', '$window', function ($rootScope, $scope, $http, Notification, NgTableParams, $httpParamSerializerJQLike, $window) {
     $rootScope.init('rfm')
+    // TODO demo execution plan
+    $scope.themes = [
+      {
+        id: 1,
+        label: '2016-11-01计划'
+      },
+      {
+        id: 2,
+        label: '2016-11-15计划'
+      },
+      {
+        id: 3,
+        label: '2016-12-01计划'
+      }
+    ]
+    $scope.selectedItem = $scope.themes[0]
+
     $scope.show = function () {
       $http.get('/api/rfm/statistic/charts/').then(function (ret) {
         $scope.charts = []

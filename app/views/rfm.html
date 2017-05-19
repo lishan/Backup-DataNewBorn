@@ -1,58 +1,101 @@
 <div class="row">
-  <div class="container-fluid">
-    <div class="form-group">
-      <label>请选择需要分析的时间区间:</label> 从
-      <input type="date" name="input" ng-model="startdate" placeholder="yyyy-MM-dd" min="2016-01-01" max="2016-12-31" required
-      /> 到 <input type="date" name="input" ng-model="enddate" placeholder="yyyy-MM-dd" min="2016-01-01" max="2016-12-31"
-        required />
-      <button type="button" class="btn btn-success" ng-click="buildRFMModel()">执行</button>
+  <div class="col-md-2">
+    <div class="list-group">
+      <div class="list-group-item container-fluid">
+        <button class="wizard-button btn btn-default btn-block" href="" ng-click="openModal()">新增</button>
+      </div>
+      <a class="list-group-item" ng-class="{true:'choose'}[selectedItem.id === item.id]" href="" ng-click="selected(item)" ng-repeat="item in themes">
+        {{item.label}}
+        <button type="button" class="btn btn-default btn-xs btn-danger pull-right" ng-click="delete(item)"><i class="glyphicon glyphicon-minus"></i></button>
+        <span class="pull-right">&nbsp;</span>
+        <button type="button" class="btn btn-default btn-xs btn-warning pull-right" ng-click="edit(item)"><i class="glyphicon glyphicon-edit"></i></button>
+      </a>
     </div>
   </div>
-</div>
-<div class="well well-sm text-center text-primary" style="font-size: 24px;">
-  <span class="glyphicon glyphicon-signal"></span> 商圈销售状况
-</div>
-<div class="row">
-  <div ng-repeat="chart in charts" class="col-md-4">
-    <bar-chart config="chart.config" data="chart.data" height="400"></bar-chart>
-  </div>
-</div>
-<br>
-<div class="well well-sm text-center text-success" style="font-size: 24px;">
-  <span class="glyphicon glyphicon-hand-right"></span> 价值客户推荐
-</div>
-<label>请选择商圈:
+  <div class="col-md-10">
+    <div class="row">
+      <div class="container-fluid">
+        <div class="form-group">
+          <label>请选择需要分析的时间区间:</label> 从
+          <input type="date" name="input" ng-model="startdate" placeholder="yyyy-MM-dd" min="2016-01-01" max="2016-12-31" required
+          /> 到 <input type="date" name="input" ng-model="enddate" placeholder="yyyy-MM-dd" min="2016-01-01" max="2016-12-31"
+            required />
+          <button type="button" class="btn btn-success" ng-click="buildRFMModel()">执行</button>
+        </div>
+      </div>
+    </div>
+    <div class="well well-sm text-center text-primary" style="font-size: 24px;">
+      <span class="glyphicon glyphicon-signal"></span> 商圈销售状况
+    </div>
+    <div class="row">
+      <div ng-repeat="chart in charts" class="col-md-4">
+        <bar-chart config="chart.config" data="chart.data" height="400"></bar-chart>
+      </div>
+    </div>
+    <br>
+    <div class="well well-sm text-center text-success" style="font-size: 24px;">
+      <span class="glyphicon glyphicon-hand-right"></span> 价值客户推荐
+    </div>
+    <label>请选择商圈:
     <select ng-model="selectedLocation" ng-change="selectLocation()"
       ng-options="location.name for location in locations"></select>
   </label>
-<br>
-<div class="row">
-  <div ng-repeat="table in tables" class="col-md-4">
-    <h5><span class="label label-primary">客户分类：</span> {{table.type.category}}<span><span class="glyphicon glyphicon-star" style="color: rgb(212, 106, 64);"></span><span class="glyphicon glyphicon-star" style="color: rgb(212, 106, 64);"></span><span class="glyphicon glyphicon-star" style="color: rgb(212, 106, 64);"></span><span class="glyphicon glyphicon-star" style="color: rgb(212, 106, 64);"></span><span class="glyphicon glyphicon-star" style="color: rgb(212, 106, 64);"></span></span>
-    </h5>
-    <h5><span class="label label-primary">客户特征：</span> {{table.type.characters}}</h5>
-    <h5><span class="label label-primary">客户人数：</span> {{table.totalCount}} / {{table.allCount}}</h5>
-    <div class="row container-fluid">
-      <button type="button" class="btn btn-success" ng-click="export({{table.id}})">导出</button>
-    </div>
     <br>
-    <div style="overflow:scroll; height:400px;">
-      <table ng-table="table.tableParams" show-filter="true" class="table table-condensed table-bordered table-striped">
-        <thead>
-          <tr>
-            <th ng-repeat="column in table.columns" class="text-center">
-              {{column.title}}
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr ng-repeat="user in $data">
-            <td ng-repeat="column in table.columns">
-              {{user[column.field]}}
-            </td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="row">
+      <div ng-repeat="table in tables" class="col-md-4">
+        <h5><span class="label label-primary">客户分类：</span> {{table.type.category}}<span><span class="glyphicon glyphicon-star" style="color: rgb(212, 106, 64);"></span>
+          <span class="glyphicon glyphicon-star" style="color: rgb(212, 106, 64);"></span><span class="glyphicon glyphicon-star"
+            style="color: rgb(212, 106, 64);"></span><span class="glyphicon glyphicon-star" style="color: rgb(212, 106, 64);"></span>
+          <span class="glyphicon glyphicon-star" style="color: rgb(212, 106, 64);"></span>
+          </span>
+        </h5>
+        <h5><span class="label label-primary">客户特征：</span> {{table.type.characters}}</h5>
+        <h5><span class="label label-primary">客户人数：</span> {{table.totalCount}} / {{table.allCount}}</h5>
+        <div class="row container-fluid">
+          <button type="button" class="btn btn-success" ng-click="export({{table.id}})">导出</button>
+          <button type="button" class="btn btn-success" ng-click="export({{table.id}})">邮件</button>
+        </div>
+        <br>
+        <div style="overflow:scroll; height:400px;">
+          <table ng-table="table.tableParams" show-filter="true" class="table table-condensed table-bordered table-striped">
+            <thead>
+              <tr>
+                <th ng-repeat="column in table.columns" class="text-center">
+                  {{column.title}}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="user in $data">
+                <td ng-repeat="column in table.columns">
+                  {{user[column.field]}}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
+    <div class="well well-sm text-center text-warning" style="font-size: 24px;">
+      <span class="glyphicon glyphicon-user"></span> 用户投放确认
+    </div>
+
+    <div class="well well-sm text-center text-info" style="font-size: 24px;">
+      <span class="glyphicon glyphicon-eye-open"></span> 复购效果查看
+    </div>
+
+    <div class="row">
+      <div class="container-fluid">
+        <div class="form-group">
+          <label>请选择需要验证的时间区间:</label> 从
+          <input type="date" name="input" ng-model="startdate" placeholder="yyyy-MM-dd" min="2016-01-01" max="2016-12-31" required
+          /> 到 <input type="date" name="input" ng-model="enddate" placeholder="yyyy-MM-dd" min="2016-01-01" max="2016-12-31"
+            required />
+          <button type="button" class="btn btn-success" ng-click="buildRFMModel()">执行</button>
+        </div>
+      </div>
+    </div>
+
   </div>
+
 </div>
