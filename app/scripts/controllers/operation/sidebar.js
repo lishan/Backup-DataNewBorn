@@ -27,8 +27,9 @@ angular.module('dataNewBorn')
           $scope.item = {}
           $scope.ok = function () {
             $scope.item.dataModelId = $scope.item.model.id
-            $http.post('/api/pivottableconfigs/create', $scope.item).success(function () {
+            $http.post('/api/pivottableconfigs/create', $scope.item).success(function (data) {
               $scope.item = {}
+              $scope.$emit('reload_page', data);
               Notification.success('新建成功')
             })
             $uibModalInstance.close()

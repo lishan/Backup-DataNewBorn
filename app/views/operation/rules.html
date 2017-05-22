@@ -3,33 +3,44 @@
     <div class="panel-body">
       <div class="form-group">
         <label>横轴</label>
-        <tokenfield ng-model="xfields" required="true" inputs="{{selectedItem.xFields}}"></tokenfield>
+        <tokenfield ng-model="selectedItem.fieldsx" required="true" inputs="{{selectedItem.model.fields}}"></tokenfield>
       </div>
       <div class="form-group">
         <label>纵轴</label>
-        <tokenfield ng-model="yfields" required="true" inputs="{{selectedItem.yFields}}"></tokenfield>
+        <tokenfield ng-model="selectedItem.fieldsy" required="true" inputs="{{selectedItem.model.fields}}"></tokenfield>
       </div>
     </div>
   </div>
   <div class="panel panel-default">
     <div class="panel-heading">统计值</div>
     <div class="panel-body">
-      <div class="form-group">
-        <div class="row" ng-repeat="statField in selectedItem.statisticFields">
-          <div class="col-md-3">
-            <input type="text" class="form-control" placeholder="请输入" ng-model="statField.label">
-          </div>
-          <div class="col-md-3">
-            <input type="text" class="form-control" placeholder="字段下拉输入" ng-model="statField.field" ng-readonly="true">
-          </div>
-          <div class="col-md-4">
-            <select ng-model="statField.method" ng-options="statisticMethod.name for statisticMethod in statisticMethods"></select>
-          </div>
-          <div class="col-md-2">
-            <button type="button" class="btn btn-default btn-sm btn-danger pull-right"><i class="glyphicon glyphicon-minus"></i></button>
-            <span class="pull-right">&nbsp;</span>
-            <button type="button" class="btn btn-default btn-sm btn-success pull-right"><i class="glyphicon glyphicon-plus"></i></button>
-          </div>
+      <div class="row" ng-repeat="statField in selectedItem.statisticFields" style="margin-bottom: 3px;">
+        <div class="col-md-3">
+          <input type="text" class="form-control" placeholder="请输入" ng-model="statField.label">
+        </div>
+        <div class="col-md-3">
+          <input type="text" class="form-control" placeholder="字段下拉输入" ng-model="statField.field" ng-readonly="true">
+        </div>
+        <div class="col-md-4">
+          <ui-select ng-model="statField.method">
+            <ui-select-match>
+              <span ng-bind="$select.selected"></span>
+            </ui-select-match>
+            <ui-select-choices
+              repeat="method in (statisticMethods | filter: $select.search) track by method.name">
+              <span ng-bind="method.name"></span>
+            </ui-select-choices>
+          </ui-select>
+          <!--<select ng-model="statField.method" ng-options="statisticMethod.name for statisticMethod in statisticMethods"></select>-->
+        </div>
+        <div class="col-md-2">
+          <button type="button" class="btn btn-default btn-sm btn-danger pull-right"
+                  ng-click="remove(selectedItem.statisticFields, $index)"><i
+            class="glyphicon glyphicon-minus"></i></button>
+          <span class="pull-right">&nbsp;</span>
+          <button type="button" class="btn btn-default btn-sm btn-success pull-right"
+                  ng-click="add(selectedItem.statisticFields)"><i
+            class="glyphicon glyphicon-plus"></i></button>
         </div>
         <!--<div class="row" ng-repeat="statisticField in selectedItem.statisticFields">
           <div class="col-md-2">
@@ -61,10 +72,12 @@
           <div class="col-md-8">
             <input type="text" class="form-control" placeholder="最小值" ng-model="condition.value">
           </div>
-            <div class="col-md-2">
-            <button type="button" class="btn btn-default btn-sm btn-danger pull-right"><i class="glyphicon glyphicon-minus"></i></button>
+          <div class="col-md-2">
+            <button type="button" class="btn btn-default btn-sm btn-danger pull-right"><i
+              class="glyphicon glyphicon-minus"></i></button>
             <span class="pull-right">&nbsp;</span>
-            <button type="button" class="btn btn-default btn-sm btn-success pull-right"><i class="glyphicon glyphicon-plus"></i></button>
+            <button type="button" class="btn btn-default btn-sm btn-success pull-right"><i
+              class="glyphicon glyphicon-plus"></i></button>
           </div>
         </div>
         <!--<div class="row">-->
@@ -89,6 +102,13 @@
             <input type="text" class="form-control" ng-model="selectedItem.queryConditions">
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="container-fluid">
+      <div class="form-group">
+        <button type="button" class="btn btn-success pull-right" ng-click="saveRules()">确定</button>
       </div>
     </div>
   </div>
