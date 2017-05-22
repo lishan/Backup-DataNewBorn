@@ -13,7 +13,12 @@ angular.module('dataNewBorn').directive('tokenfield',[function() {
     },
     link: function (scope, element, attrs) {
       let _findLabelTips = function(){
-        return attrs.inputs.split(",");
+        let result = [];
+        let inputs = JSON.parse(attrs.inputs);
+        for(let i in inputs){
+          result.push(inputs[i].label);
+        }
+        return [...result];
       };
       scope.bRequired = attrs !== undefined && attrs.required === 'true';
       let _bDisabled = attrs !== undefined && attrs.disabled === 'true';

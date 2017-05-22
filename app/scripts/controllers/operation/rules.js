@@ -21,7 +21,30 @@ angular.module('dataNewBorn')
         //   case 'NUMBER'
         // }
       });
-      
+      if($scope.selectedItem.xFields){
+        $scope.selectedItem.fieldsx = [];
+        let array = $scope.selectedItem.xFields.split(",");
+        for(let i in array){
+          for(let j in $scope.selectedItem.model.fields){
+            if(array[i] === $scope.selectedItem.model.fields[j].name){
+              $scope.selectedItem.fieldsx.push($scope.selectedItem.model.fields[j].label);
+              break;
+            }
+          }
+        }
+      }
+      if($scope.selectedItem.yFields){
+        $scope.selectedItem.fieldsy = [];
+        let array = $scope.selectedItem.yFields.split(",");
+        for(let i in array){
+          for(let j in $scope.selectedItem.model.fields){
+            if(array[i] === $scope.selectedItem.model.fields[j].name){
+              $scope.selectedItem.fieldsy.push($scope.selectedItem.model.fields[j].label);
+              break;
+            }
+          }
+        }
+      }
     }
 
     $scope.statisticMethods = [
@@ -30,5 +53,22 @@ angular.module('dataNewBorn')
       {name: 'MEAN', shade: 'dark'},
       {name: 'MIN', shade: 'dark'},
       {name: 'MAX', shade: 'light'}
-    ]
-  }])
+    ];
+
+    $scope.remove = function(array, $index){
+      array.splice($index,1);
+    };
+
+    $scope.add = function (array) {
+      if(array !== undefined) {
+        array.push({});
+      }
+    };
+
+    $scope.saveRules = function(){
+      // $http.post(`/api/pivottableconfigs/${$scope.item.id}/update`, $scope.item).success(function () {
+      //   Notification.success('修改成功');
+      //   $uibModalInstance.close()
+      // })
+    };
+  }]);
