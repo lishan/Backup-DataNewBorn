@@ -13,7 +13,78 @@
     </div>
   </div>
   <div class="col-md-10">
+    <div class="well well-sm text-center text-primary" style="font-size: 24px;">
+      <span class="glyphicon glyphicon-signal"></span> 商圈销售状况
+    </div>
+    <div class="container-fluid">
+      <div class="form-group collapse well well-sm text-primary" id="querypanel">
+        <div >
+          <label>时间区间: 从
+        <input type="date" name="input" ng-model="startDate" placeholder="yyyy-MM-dd" min="2016-01-01" max="2016-12-31" required
+        /> 到 <input type="date" name="input" ng-model="endDate" placeholder="yyyy-MM-dd" min="2016-01-01" max="2016-12-31"
+          required /></label>
+        </div>
+        <div>
+          <label>订单状态:
+            <select ng-model="selectedStatus" ng-options="status.name for status in orderStatus">
+              <option value="">--全部 --</option>
+            </select>
+          </label>
+        </div>
+        <div>
+          <label>订单金额: 从<input type="number" name="input" ng-model="startAmount"
+           min="0">到<input type="number" name="input" ng-model="endAmount"
+           min="0">
+          </label>
+        </div>
+        <div>
+          <label>订单配送:
+            <select ng-model="selectedDiliver" ng-options="item.name for item in dilivers">
+              <option value="">--全部 --</option>
+            </select>
+          </label>
+        </div>
+        <div>
+          <label>订单供应:
+            <select ng-model="selectedSupplierId" ng-options="item.name for item in supplierIds">
+              <option value="">--全部 --</option>
+            </select>
+          </label>
+        </div>
+        <div>
+          <label>客户性别:
+            <select ng-model="selectedGender" ng-options="item.name for item in genders">
+              <option value="">--全部 --</option>
+            </select>
+          </label>
+        </div>
+        <button type="button" class="btn btn-success" ng-click="show()">查询</button>
+      </div>
+      <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#querypanel">查询条件</button>
+    </div>
     <div class="row">
+      <div ng-repeat="chart in charts" class="col-md-4">
+        <bar-chart config="chart.config" data="chart.data" height="400"></bar-chart>
+      </div>
+    </div>
+    <br>
+
+    <div class="row">
+      <label>请选择需要分析的商圈:</label> 
+      <table ng-table="queryDataTableParams" class="table table-condensed table-bordered table-striped">
+        <tr ng-repeat="row in $data">
+          <td data-title="''" style="width: 35px">
+            <input type="checkbox" ng-checked="row.isRowSelected" ng-click="toggleSelection(row)" /> </td>
+          <td data-title="'商圈'" filter="{bussinessLocation: 'text'}" sortable="'bussinessLocation'">{{row.bussinessLocation}}</td>
+          <td data-title="'金额'" filter="{total: 'number'}" sortable="'total'">{{row.total}}</td>
+          <td data-title="'订单量'" filter="{count: 'number'}" sortable="'count'">{{row.count}}</td>
+          <td data-title="'每单平均金额'" filter="{mean: 'number'}" sortable="'mean'">{{row.mean}}</td>
+        </tr>
+      </table>
+    </div>
+
+
+    <div class="well well-sm text-center text-success" style="font-size: 24px;">
       <div class="container-fluid">
         <div class="form-group">
           <label>请选择需要分析的时间区间:</label> 从
@@ -22,19 +93,11 @@
             required />
           <button type="button" class="btn btn-success" ng-click="buildRFMModel()">执行</button>
         </div>
-      </div>
+      </div> <span class="glyphicon glyphicon-hand-right"></span> 价值客户推荐
     </div>
-    <div class="well well-sm text-center text-primary" style="font-size: 24px;">
-      <span class="glyphicon glyphicon-signal"></span> 商圈销售状况
-    </div>
+
     <div class="row">
-      <div ng-repeat="chart in charts" class="col-md-4">
-        <bar-chart config="chart.config" data="chart.data" height="400"></bar-chart>
-      </div>
-    </div>
-    <br>
-    <div class="well well-sm text-center text-success" style="font-size: 24px;">
-      <span class="glyphicon glyphicon-hand-right"></span> 价值客户推荐
+
     </div>
     <label>请选择商圈:
     <select ng-model="selectedLocation" ng-change="selectLocation()"
@@ -42,60 +105,129 @@
   </label>
     <br>
     <div class="row">
-      <div ng-repeat="table in tables" class="col-md-4">
-        <h5><span class="label label-primary">客户分类：</span> {{table.type.category}}<span><span class="glyphicon glyphicon-star" style="color: rgb(212, 106, 64);"></span>
-          <span class="glyphicon glyphicon-star" style="color: rgb(212, 106, 64);"></span><span class="glyphicon glyphicon-star"
-            style="color: rgb(212, 106, 64);"></span><span class="glyphicon glyphicon-star" style="color: rgb(212, 106, 64);"></span>
-          <span class="glyphicon glyphicon-star" style="color: rgb(212, 106, 64);"></span>
-          </span>
-        </h5>
-        <h5><span class="label label-primary">客户特征：</span> {{table.type.characters}}</h5>
-        <h5><span class="label label-primary">客户人数：</span> {{table.totalCount}} / {{table.allCount}}</h5>
-        <div class="row container-fluid">
-          <button type="button" class="btn btn-success" ng-click="export({{table.id}})">导出</button>
-          <button type="button" class="btn btn-success" ng-click="export({{table.id}})">邮件</button>
-        </div>
+      <div class="col-md-4">
+        <pie-chart config="locationPie.config" data="locationPie.data" height="400"></pie-chart>
+      </div>
+      <div class="col-md-2">
+      </div>
+      <div class="col-md-6">
         <br>
-        <div style="overflow:scroll; height:400px;">
-          <table ng-table="table.tableParams" show-filter="true" class="table table-condensed table-bordered table-striped">
-            <thead>
-              <tr>
-                <th ng-repeat="column in table.columns" class="text-center">
-                  {{column.title}}
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr ng-repeat="user in $data">
-                <td ng-repeat="column in table.columns">
-                  {{user[column.field]}}
-                </td>
-              </tr>
-            </tbody>
-          </table>
+        <br>
+        <br>
+        <br>
+        <br>
+        <table ng-table="locationTable.params" class="table table-condensed table-bordered table-striped">
+          <tr ng-repeat="row in $data">
+            <td data-title="'类型'" filter="{type: 'text'}" sortable="'type'">{{row.type}}</td>
+            <td data-title="'金额'" filter="{total: 'number'}" sortable="'total'">{{row.total}}</td>
+            <td data-title="'订单量'" filter="{count: 'number'}" sortable="'count'">{{row.count}}</td>
+            <td data-title="'每单平均金额'" filter="{mean: 'number'}" sortable="'mean'">{{row.mean}}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#locationInfo">详细</button>
+    <br>
+    <div id="locationInfo" class="collapse">
+      <div class="row">
+        <div ng-repeat="table in tables" class="col-md-4">
+          <h5><span class="label label-primary">客户分类：</span> {{table.type.category}}<span ng-repeat="star in table.type.stars track by $index"><span class="glyphicon glyphicon-star" style="color: rgb(212, 106, 64);"></span>
+            </span>
+          </h5>
+          <h5><span class="label label-primary">客户特征：</span> {{table.type.characters}}</h5>
+          <h5><span class="label label-primary">客户人数：</span> {{table.totalCount}} / {{table.allCount}}</h5>
+          <div class="row container-fluid">
+            <button type="button" class="btn btn-success" ng-click="export(table.id)">导出</button>
+            <button type="button" class="btn btn-success" ng-click="export(table.id)">邮件</button>
+          </div>
+          <br>
+          <div style="overflow:scroll; height:400px;">
+            <table ng-table="table.tableParams" show-filter="true" class="table table-condensed table-bordered table-striped">
+              <thead>
+                <tr>
+                  <th ng-repeat="column in table.columns" class="text-center">
+                    {{column.title}}
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="user in $data">
+                  <td ng-repeat="column in table.columns">
+                    {{user[column.field]}}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
+    <br>
     <div class="well well-sm text-center text-warning" style="font-size: 24px;">
       <span class="glyphicon glyphicon-user"></span> 用户投放确认
     </div>
 
-    <div class="well well-sm text-center text-info" style="font-size: 24px;">
-      <span class="glyphicon glyphicon-eye-open"></span> 复购效果查看
-    </div>
-
     <div class="row">
-      <div class="container-fluid">
-        <div class="form-group">
-          <label>请选择需要验证的时间区间:</label> 从
-          <input type="date" name="input" ng-model="startdate" placeholder="yyyy-MM-dd" min="2016-01-01" max="2016-12-31" required
-          /> 到 <input type="date" name="input" ng-model="enddate" placeholder="yyyy-MM-dd" min="2016-01-01" max="2016-12-31"
-            required />
-          <button type="button" class="btn btn-success" ng-click="buildRFMModel()">执行</button>
+      <div class="col-md-12">
+        <div ng-repeat="location in locations track by $index" class="row">
+          <div class="col-md-2">
+            <label for="">{{location.name}}</label>
+          </div>
+          <div class="col-md-10">
+            <div ng-repeat="type in types track by $index" class="row">
+              <div class="col-md-3">
+                <label for="">{{type.category}}:</label>
+                <label>前<input type="number" name="input" min="0" max="1000" required>名用户</label>
+              </div>
+              <div class="col-md-3">
+                <label>投放金额：<input type="number" name="input" min="0" max="1000" required></label>
+              </div>
+              <div class="col-md-3">
+                <div class="btn-group">
+                  <label class="btn btn-default" ng-model="radioModel" uib-btn-radio="'all'">全部</label>
+                  <label class="btn btn-default" ng-model="radioModel" uib-btn-radio="'uneven'">奇数</label>
+                  <label class="btn btn-default" ng-model="radioModel" uib-btn-radio="'even'">偶数</label>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
+    <div class="well well-sm text-center text-info" style="font-size: 24px;">
+      <div class="container-fluid">
+        <div class="form-group">
+          <label>请选择需要验证的时间区间:</label> 从
+          <input type="date" name="input" ng-model="checkstartdate" placeholder="yyyy-MM-dd" min="2016-01-01" max="2016-12-31" required
+          /> 到 <input type="date" name="input" ng-model="checkenddate" placeholder="yyyy-MM-dd" min="2016-01-01"
+            max="2016-12-31" required />
+          <button type="button" class="btn btn-success" ng-click="buildRFMModel()">执行</button>
+        </div>
+      </div>
+      <span class="glyphicon glyphicon-eye-open"></span> 复购效果查看
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <bar-chart config="resultChartConfig" data="resultChartData" height="400"></bar-chart>
+      </div>
+      <div class="col-md-6">
+        <bar-chart config="resultChartConfig1" data="resultChartData1" height="400"></bar-chart>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <bar-chart config="resultChartConfig2" data="resultChartData2" height="400"></bar-chart>
+      </div>
+      <div class="col-md-6">
+        <bar-chart config="resultChartConfig3" data="resultChartData3" height="400"></bar-chart>
+      </div>
+    </div>
 
+    <div class="well well-sm text-center text-danger" style="font-size: 24px;">
+      <span class="glyphicon glyphicon-export"></span> 报告查看
+    </div>
+    <button type="button" class="btn btn-success" ng-click="exportReport()">导出</button>
   </div>
 
 </div>
