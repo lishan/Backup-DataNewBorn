@@ -270,8 +270,22 @@ angular.module('dataNewBorn')
     }
 
     $scope.buildRFMModel = function () {
+      let selectedLocations = []
+      $.each($scope.location, function (index, location) {
+        selectedLocations.push(location.name)
+      })
       $http.post(
-        '/api/rfm/build', {}
+        '/api/rfm/build', {
+          bussinessLocations: selectedLocations,
+          startDate: $scope.startDate ? $filter('date')($scope.startDate, 'yyyy-MM-dd') : null,
+          endDate: $scope.endDate ? $filter('date')($scope.endDate, 'yyyy-MM-dd') : null,
+          startAmount: $scope.startAmount,
+          endAmount: $scope.endAmount,
+          orderStatus: $scope.selectedStatus ? $scope.selectedStatus.name : null,
+          gender: $scope.selectedGender ? $scope.selectedGender.name : null,
+          diliver: $scope.selectedDiliver ? $scope.selectedDiliver.name : null,
+          supplierId: $scope.selectedSupplierId ? $scope.selectedSupplierId.name : null
+        }
       ).then(function (response) {
         // Binding data
         $scope.result = response.data
