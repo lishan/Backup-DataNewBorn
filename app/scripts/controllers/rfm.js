@@ -310,7 +310,9 @@ angular.module('dataNewBorn')
     $scope.buildRFMModel = function () {
       let selectedLocations = []
       $.each($scope.locations, function (index, location) {
-        selectedLocations.push(location.name)
+        if(location.value){
+          selectedLocations.push(location.name)
+        }
       })
       $http.post(
         '/api/rfm/build', {
