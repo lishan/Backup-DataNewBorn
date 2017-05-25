@@ -23,7 +23,77 @@ angular.module('dataNewBorn')
     ]
     $scope.selectedItem = $scope.themes[0]
 
+    // TODO
+    $scope.startDate = new Date(2016, 10, 1)
+    $scope.endDate = new Date(2016, 10, 7)
+
+    $scope.orderStatus = [
+      {name: '订单已完成', shade: 'dark'},
+      {name: '订单已取消', shade: 'light'},
+      {name: '正在制作', shade: 'dark'}
+    ]
+    $scope.selectedStatus = $scope.orderStatus[0]
+
+    $scope.genders = [
+      {name: '女士', shade: 'dark'},
+      {name: '先生', shade: 'light'}
+    ]
+
+    $scope.dilivers = [
+      {name: '自配送', shade: 'dark'},
+      {name: '百度物流', shade: 'light'}
+    ]
+
+    $scope.supplierIds = [
+      {name: '单体商户', shade: 'dark'},
+      {name: 'KA商户', shade: 'light'}
+    ]
+
+    $scope.locations = [
+      {name: '全部商圈', value: '', shade: 'dark'}
+    ]
+
+    $scope.setCondtionStr = function () {
+      $scope.conditionsStr = ''
+      if ($scope.startDate) {
+        $scope.conditionsStr += '从' + $filter('date')($scope.startDate, 'yyyy-MM-dd') + '开始,'
+      }
+      if ($scope.endDate) {
+        $scope.conditionsStr += '到' + $filter('date')($scope.endDate, 'yyyy-MM-dd') + '结束,'
+      }
+      if ($scope.startAmount) {
+        $scope.conditionsStr += '金额大于等于' + $scope.startAmount + ','
+      }
+      if ($scope.endAmount) {
+        $scope.conditionsStr += '金额小于' + $scope.endAmount + ','
+      }
+      if ($scope.selectedStatus) {
+        $scope.conditionsStr += '订单状态为' + $scope.selectedStatus.name + ','
+      }
+
+      if ($scope.gender) {
+        $scope.conditionsStr += '客户性别为' + $scope.gender.name + ','
+      }
+      if ($scope.diliver) {
+        $scope.conditionsStr += '运货方为' + $scope.diliver.name + ','
+      }
+      if ($scope.selectedSupplierId) {
+        $scope.conditionsStr += '提供商为' + $scope.selectedSupplierId.name + ','
+      }
+
+      $scope.conditionsStr = $scope.conditionsStr.substr(0, $scope.conditionsStr.length - 1)
+      $scope.conditionsStr += '的数据, 为'
+      let locations = ''
+      $.each($scope.locations, function (index, location) {
+        locations += location.name + ','
+      })
+      $scope.conditionsStr += locations
+      $scope.conditionsStr = $scope.conditionsStr.substr(0, $scope.conditionsStr.length - 1)
+      $scope.conditionsStr += '执行RFM模型。'
+    }
+
     $scope.show = function () {
+      $scope.setCondtionStr()
       $http.post('/api/rfm/statistic/charts', {
         startDate: $scope.startDate ? $filter('date')($scope.startDate, 'yyyy-MM-dd') : null,
         endDate: $scope.endDate ? $filter('date')($scope.endDate, 'yyyy-MM-dd') : null,
@@ -87,46 +157,18 @@ angular.module('dataNewBorn')
     }
     $scope.show()
 
-    $scope.orderStatus = [
-      {name: '订单已完成', shade: 'dark'},
-      {name: '订单已取消', shade: 'light'},
-      {name: '正在制作', shade: 'dark'}
-    ]
-    $scope.selectedStatus = $scope.orderStatus[0]
-
-    $scope.genders = [
-      {name: '女士', shade: 'dark'},
-      {name: '先生', shade: 'light'}
-    ]
-
-    $scope.dilivers = [
-      {name: '自配送', shade: 'dark'},
-      {name: '百度物流', shade: 'light'}
-    ]
-
-    $scope.supplierIds = [
-      {name: '单体商户', shade: 'dark'},
-      {name: 'KA商户', shade: 'light'}
-    ]
-
-    $scope.locations = [
-      {name: 'GX高新一中商圈', shade: 'dark'},
-      {name: 'GX高新路商圈', shade: 'light'},
-      {name: 'NQ小寨商圈', shade: 'dark'},
-      {name: 'CN西关商圈', shade: 'dark'},
-      {name: 'BQ市政府商圈', shade: 'light'}
-    ]
-
     $scope.toggleSelection = function (item) {
       item.isRowSelected = !item.isRowSelected
-      $scope.locations = []
+      $scope.locations = [{name: '全部商圈', value: '', shade: 'dark'}]
       $.each($scope.queryDataTableData, function (index, rowData) {
         if (rowData.isRowSelected) {
           $scope.locations.push({
-            name: rowData.bussinessLocation
+            name: rowData.bussinessLocation,
+            value: rowData.bussinessLocation
           })
         }
       })
+      $scope.setCondtionStr()
     }
 
     $scope.types = [
@@ -217,7 +259,7 @@ angular.module('dataNewBorn')
           method: 'POST',
           url: '/api/rfm/table/' + table.id,
           data: $httpParamSerializerJQLike({
-            location: $scope.selectedLocation.name
+            location: $scope.selectedLocation.value
           }),
           headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         }).then(function (ret) {
@@ -248,11 +290,7 @@ angular.module('dataNewBorn')
       }
     }
     $scope.selectLocation()
-    // TODO
-    $scope.startDate = new Date(2016, 10, 1)
-    $scope.endDate = new Date(2016, 10, 14)
-    $scope.checkstartdate = new Date(2016, 10, 15)
-    $scope.checkenddate = new Date(2016, 10, 22)
+    $scope.setCondtionStr()
 
     $scope.export = function (tableId) {
       let label = $scope.types[tableId].category + '.xls'
@@ -271,7 +309,7 @@ angular.module('dataNewBorn')
 
     $scope.buildRFMModel = function () {
       let selectedLocations = []
-      $.each($scope.location, function (index, location) {
+      $.each($scope.locations, function (index, location) {
         selectedLocations.push(location.name)
       })
       $http.post(

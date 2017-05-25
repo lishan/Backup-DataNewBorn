@@ -87,10 +87,7 @@
     <div class="well well-sm text-center text-success" style="font-size: 24px;">
       <div class="container-fluid">
         <div class="form-group">
-          <label>请选择需要分析的时间区间:</label> 从
-          <input type="date" name="input" ng-model="startdate" placeholder="yyyy-MM-dd" min="2016-01-01" max="2016-12-31" required
-          /> 到 <input type="date" name="input" ng-model="enddate" placeholder="yyyy-MM-dd" min="2016-01-01" max="2016-12-31"
-            required />
+          <label>{{conditionsStr}}</label>
           <button type="button" class="btn btn-success" ng-click="buildRFMModel()">执行</button>
         </div>
       </div> <span class="glyphicon glyphicon-hand-right"></span> 价值客户推荐
@@ -118,10 +115,12 @@
         <br>
         <table ng-table="locationTable.params" class="table table-condensed table-bordered table-striped">
           <tr ng-repeat="row in $data">
-            <td data-title="'类型'" filter="{type: 'text'}" sortable="'type'">{{row.type}}</td>
-            <td data-title="'金额'" filter="{total: 'number'}" sortable="'total'">{{row.total}}</td>
-            <td data-title="'订单量'" filter="{count: 'number'}" sortable="'count'">{{row.count}}</td>
-            <td data-title="'每单平均金额'" filter="{mean: 'number'}" sortable="'mean'">{{row.mean}}</td>
+            <td data-title="'类型'" sortable="'type'">{{row.type}}</td>
+            <td data-title="'人数'" sortable="'total'">{{row.number}}</td>
+            <td data-title="'金额'" sortable="'total'">{{row.total}}</td>
+            <td data-title="'订单量'" sortable="'count'">{{row.count}}</td>
+            <td data-title="'人均消费金额'" sortable="'mean'">{{row.mean}}</td>
+            <td data-title="'每单平均金额'" sortable="'mean'">{{row.mean}}</td>
           </tr>
         </table>
       </div>
