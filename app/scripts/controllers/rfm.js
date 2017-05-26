@@ -50,11 +50,11 @@ angular.module('dataNewBorn')
     ]
 
     $scope.locations = [
-      {name: '全部商圈', value: '', shade: 'dark'}
+      {name: '整体', value: 'null', shade: 'dark'}
     ]
 
     $scope.setCondtionStr = function () {
-      $scope.conditionsStr = ''
+      $scope.conditionsStr = '使用'
       if ($scope.startDate) {
         $scope.conditionsStr += '从' + $filter('date')($scope.startDate, 'yyyy-MM-dd') + '开始,'
       }
@@ -71,11 +71,11 @@ angular.module('dataNewBorn')
         $scope.conditionsStr += '订单状态为' + $scope.selectedStatus.name + ','
       }
 
-      if ($scope.gender) {
-        $scope.conditionsStr += '客户性别为' + $scope.gender.name + ','
+      if ($scope.selectedGender) {
+        $scope.conditionsStr += '客户性别为' + $scope.selectedGender.name + ','
       }
-      if ($scope.diliver) {
-        $scope.conditionsStr += '运货方为' + $scope.diliver.name + ','
+      if ($scope.selectedDiliver) {
+        $scope.conditionsStr += '运货方为' + $scope.selectedDiliver.name + ','
       }
       if ($scope.selectedSupplierId) {
         $scope.conditionsStr += '提供商为' + $scope.selectedSupplierId.name + ','
@@ -159,7 +159,7 @@ angular.module('dataNewBorn')
 
     $scope.toggleSelection = function (item) {
       item.isRowSelected = !item.isRowSelected
-      $scope.locations = [{name: '全部商圈', value: '', shade: 'dark'}]
+      $scope.locations = [{name: '整体', value: 'null', shade: 'dark'}]
       $.each($scope.queryDataTableData, function (index, rowData) {
         if (rowData.isRowSelected) {
           $scope.locations.push({
@@ -203,36 +203,59 @@ angular.module('dataNewBorn')
       $scope.locationPie.data = [{
         datapoints: $scope.locationPie.datapoints
       }]
-      $.each($scope.types, function (index, type) {
+
+      $http({
+        method: 'POST',
+        url: '/api/rfm/overall',
+        data: $httpParamSerializerJQLike({
+          location: $scope.selectedLocation.value
+        }),
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+      }).then(function (ret) {
+        // setup tables
+        $scope.locationTable = {}
+        $scope.locationTable.data = []
+
+        let currentTotal = 0
+        let currentCount = 0
+        let currentNumber = 0
+        for (let i = 0; i < 3; i++) {
+          currentTotal += ret.data.datas[i].total
+          currentCount += ret.data.datas[i].count
+          currentNumber += ret.data.datas[i].number
+          ret.data.datas[i].type = $scope.types[i].category 
+          ret.data.datas[i].mean1 = ret.data.datas[i].total / ret.data.datas[i].number
+          ret.data.datas[i].mean2 = ret.data.datas[i].total / ret.data.datas[i].count
+          // add pie data
+          $scope.locationPie.datapoints.push({
+            x: $scope.types[i].category,
+            y: ret.data.datas[i].number
+          })
+          // add table data
+          $scope.locationTable.data.push(ret.data.datas[i])
+        }
+        ret.data.datas[3].mean1 = ret.data.datas[3].total / ret.data.datas[3].number
+        ret.data.datas[3].mean2 = ret.data.datas[3].total / ret.data.datas[3].count
+        ret.data.datas[3].type = '总计'
+
         $scope.locationPie.datapoints.push({
-          x: type.category,
-          y: 1000
+          x: '其他',
+          y: ret.data.datas[3].number - currentNumber
         })
+
+        let otherRow = {
+          type: '其他',
+          number: ret.data.datas[3].number - currentNumber,
+          total: ret.data.datas[3].total - currentTotal,
+          count: ret.data.datas[3].count - currentCount
+        }
+        otherRow.mean1 = otherRow.total / otherRow.number
+        otherRow.mean2 = otherRow.total / otherRow.count
+        $scope.locationTable.data.push(otherRow)
+
+        $scope.locationTable.data.push(ret.data.datas[3])
+        $scope.locationTable.params = new NgTableParams({}, { dataset: $scope.locationTable.data})
       })
-      // setup tables
-      $scope.locationTable = {}
-      $scope.locationTable.data = []
-      $.each($scope.types, function (index, type) {
-        $scope.locationTable.data.push({
-          type: type.category,
-          count: 1000,
-          total: 100000,
-          mean: 100
-        })
-      })
-      $scope.locationTable.data.push({
-        type: '其他',
-        count: 1000,
-        total: 100000,
-        mean: 100
-      })
-      $scope.locationTable.data.push({
-        type: '总共',
-        count: 1000,
-        total: 100000,
-        mean: 100
-      })
-      $scope.locationTable.params = new NgTableParams({}, { dataset: $scope.locationTable.data})
 
       $scope.tables = []
       for (let i = 0; i < 3; i++) {
@@ -275,7 +298,7 @@ angular.module('dataNewBorn')
                 method: 'POST',
                 url: '/api/rfm/table/' + table.id,
                 data: $httpParamSerializerJQLike({
-                  location: $scope.selectedLocation.name,
+                  location: $scope.selectedLocation.value,
                   pageNo: params.page(),
                   pageSize: params.count()
                 }),
@@ -310,8 +333,8 @@ angular.module('dataNewBorn')
     $scope.buildRFMModel = function () {
       let selectedLocations = []
       $.each($scope.locations, function (index, location) {
-        if(location.value){
-          selectedLocations.push(location.name)
+        if (location.value) {
+          selectedLocations.push(location.value)
         }
       })
       $http.post(
