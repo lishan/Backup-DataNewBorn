@@ -18,7 +18,7 @@
     </div>
     <div class="container-fluid">
       <div class="form-group collapse well well-sm text-primary" id="querypanel">
-        <div >
+        <div>
           <label>时间区间: 从
         <input type="date" name="input" ng-model="startDate" placeholder="yyyy-MM-dd" min="2016-01-01" max="2016-12-31" required
         /> 到 <input type="date" name="input" ng-model="endDate" placeholder="yyyy-MM-dd" min="2016-01-01" max="2016-12-31"
@@ -70,7 +70,7 @@
     <br>
 
     <div class="row">
-      <label>请选择需要分析的商圈:</label> 
+      <label>请选择需要分析的商圈:</label>
       <table ng-table="queryDataTableParams" class="table table-condensed table-bordered table-striped">
         <tr ng-repeat="row in $data">
           <td data-title="''" style="width: 35px">
@@ -85,7 +85,7 @@
 
 
     <div class="well well-sm text-center text-success" style="font-size: 24px;">
-       <span class="glyphicon glyphicon-hand-right"></span> 价值客户推荐
+      <span class="glyphicon glyphicon-hand-right"></span> 价值客户推荐
       <div class="container-fluid">
         <div class="form-group">
           <label>{{conditionsStr}}</label>
@@ -114,12 +114,12 @@
         <br>
         <table ng-table="locationTable.params" class="table table-condensed table-bordered table-striped">
           <tr ng-repeat="row in $data">
-            <td data-title="'类型'" >{{row.type}}</td>
-            <td data-title="'人数'" >{{row.number}}</td>
-            <td data-title="'金额'" >{{row.total}}</td>
-            <td data-title="'订单量'" >{{row.count}}</td>
-            <td data-title="'人均消费金额'" >{{row.mean1}}</td>
-            <td data-title="'每单平均金额'" >{{row.mean2}}</td>
+            <td data-title="'类型'">{{row.type}}</td>
+            <td data-title="'人数'">{{row.number}}</td>
+            <td data-title="'金额'">{{row.total}}</td>
+            <td data-title="'订单量'">{{row.count}}</td>
+            <td data-title="'人均消费金额'">{{row.mean1}}</td>
+            <td data-title="'每单平均金额'">{{row.mean2}}</td>
           </tr>
         </table>
       </div>
@@ -165,7 +165,7 @@
     <div class="well well-sm text-center text-warning" style="font-size: 24px;">
       <span class="glyphicon glyphicon-user"></span> 用户投放确认
     </div>
-
+    <button type="button" class="btn btn-success" ng-click="setCoupon()">执行</button>
     <div class="row">
       <div class="col-md-12">
         <div ng-repeat="location in locations track by $index" class="row">
@@ -176,16 +176,16 @@
             <div ng-repeat="type in types track by $index" class="row">
               <div class="col-md-3">
                 <label for="">{{type.category}}:</label>
-                <label>前<input type="number" name="input" min="0" max="1000" required>名用户</label>
+                <label>前<input type="number" name="input" min="0" max="1000" required ng-model="location[type.category].topNumber">名用户</label>
               </div>
               <div class="col-md-3">
-                <label>投放金额：<input type="number" name="input" min="0" max="1000" required></label>
+                <label>投放金额：<input type="number" name="input" min="0" max="1000" required ng-model="location[type.category].coupon"></label>
               </div>
               <div class="col-md-3">
                 <div class="btn-group">
-                  <label class="btn btn-default" ng-model="radioModel" uib-btn-radio="'all'">全部</label>
-                  <label class="btn btn-default" ng-model="radioModel" uib-btn-radio="'uneven'">奇数</label>
-                  <label class="btn btn-default" ng-model="radioModel" uib-btn-radio="'even'">偶数</label>
+                  <label class="btn btn-default" ng-model="location[type.category].caseType" uib-btn-radio="'2'">全部行</label>
+                  <label class="btn btn-default" ng-model="location[type.category].caseType" uib-btn-radio="'1'">偶数行</label>
+                  <label class="btn btn-default" ng-model="location[type.category].caseType" uib-btn-radio="'0'">奇数行</label>
                 </div>
               </div>
             </div>

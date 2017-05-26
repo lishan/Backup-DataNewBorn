@@ -50,7 +50,8 @@ angular.module('dataNewBorn')
     ]
 
     $scope.locations = [
-      {name: '整体', value: 'null', shade: 'dark'}
+      {name: '整体', value: 'null', shade: 'dark',
+      '重要价值客户': {}, '重要保持客户': {}, '重要发展客户': {}}
     ]
 
     $scope.setCondtionStr = function () {
@@ -159,12 +160,14 @@ angular.module('dataNewBorn')
 
     $scope.toggleSelection = function (item) {
       item.isRowSelected = !item.isRowSelected
-      $scope.locations = [{name: '整体', value: 'null', shade: 'dark'}]
+      $scope.locations = [{name: '整体', value: 'null', shade: 'dark',
+      '重要价值客户': {}, '重要保持客户': {}, '重要发展客户': {}}]
       $.each($scope.queryDataTableData, function (index, rowData) {
         if (rowData.isRowSelected) {
           $scope.locations.push({
             name: rowData.bussinessLocation,
-            value: rowData.bussinessLocation
+            value: rowData.bussinessLocation,
+            '重要价值客户': {}, '重要保持客户': {}, '重要发展客户': {}
           })
         }
       })
@@ -175,14 +178,17 @@ angular.module('dataNewBorn')
       {
         category: '重要价值客户',
         characters: '最近一次消费时间近，近一周消费金额高，消费频率高',
+        userType: 3,
         stars: [1, 2, 3, 4, 5]
       }, {
         category: '重要保持客户',
         characters: '最近一次消费时间远，但近一周消费金额高，消费频率高',
+        userType: 2,
         stars: [1, 2, 3, 4]
       }, {
         category: '重要发展客户',
         characters: '近两周消费金额高，但消费频率不高',
+        userType: 1,
         stars: [1, 2, 3, 4]
       }
     ]
@@ -223,7 +229,7 @@ angular.module('dataNewBorn')
           currentTotal += ret.data.datas[i].total
           currentCount += ret.data.datas[i].count
           currentNumber += ret.data.datas[i].number
-          ret.data.datas[i].type = $scope.types[i].category 
+          ret.data.datas[i].type = $scope.types[i].category
           ret.data.datas[i].mean1 = ret.data.datas[i].total / ret.data.datas[i].number
           ret.data.datas[i].mean2 = ret.data.datas[i].total / ret.data.datas[i].count
           // add pie data
@@ -333,7 +339,7 @@ angular.module('dataNewBorn')
     $scope.buildRFMModel = function () {
       let selectedLocations = []
       $.each($scope.locations, function (index, location) {
-        if (location.value) {
+        if (location.value !== 'null') {
           selectedLocations.push(location.value)
         }
       })
@@ -356,6 +362,29 @@ angular.module('dataNewBorn')
       }, function (response) {
         $scope.result = response.data
       })
+    }
+
+    $scope.setCoupon = function () {
+      let couponInfo = []
+      $.each($scope.locations, function (index, location) {
+        $.each($scope.types, function (index2, type) {
+          if (location[type.category].topNumber) {
+            couponInfo.push({
+              bussinessLocation: location.value,
+              userType: type.userType,
+              topNumber: location[type.category].topNumber,
+              coupon: location[type.category].coupon,
+              caseType: location[type.category].caseType
+            })
+          }
+        })
+      })
+
+      $http.post(
+        '/rfm/update/coupon', couponInfo
+      ).then(function (response) {
+        //TODO
+      })    
     }
 
     $scope.resultChartConfig = {
