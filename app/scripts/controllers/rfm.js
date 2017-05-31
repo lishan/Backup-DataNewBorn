@@ -26,6 +26,8 @@ angular.module('dataNewBorn')
     // TODO
     $scope.startDate = new Date(2016, 10, 1)
     $scope.endDate = new Date(2016, 10, 7)
+    $scope.startCompareDate = new Date(2016, 10, 8)
+    $scope.endCompareDate = new Date(2016, 10, 13)
 
     $scope.orderStatus = [
       {name: '订单已完成', shade: 'dark'},
@@ -336,6 +338,18 @@ angular.module('dataNewBorn')
       })
     }
 
+    $scope.getRFMChartCondition = function () {
+      return {
+        startDate: $scope.startDate ? $filter('date')($scope.startDate, 'yyyy-MM-dd') : null,
+        endDate: $scope.endDate ? $filter('date')($scope.endDate, 'yyyy-MM-dd') : null,
+        startAmount: $scope.startAmount,
+        endAmount: $scope.endAmount,
+        orderStatus: $scope.selectedStatus ? $scope.selectedStatus.name : null,
+        gender: $scope.selectedGender ? $scope.selectedGender.name : null,
+        diliver: $scope.selectedDiliver ? $scope.selectedDiliver.name : null,
+        supplierId: $scope.selectedSupplierId ? $scope.selectedSupplierId.name : null
+      }
+    }
     $scope.buildRFMModel = function () {
       let selectedLocations = []
       $.each($scope.locations, function (index, location) {
@@ -343,18 +357,10 @@ angular.module('dataNewBorn')
           selectedLocations.push(location.value)
         }
       })
+      let condition = $scope.getRFMChartCondition()
+      condition.bussinessLocations = selectedLocations
       $http.post(
-        '/api/rfm/build', {
-          bussinessLocations: selectedLocations,
-          startDate: $scope.startDate ? $filter('date')($scope.startDate, 'yyyy-MM-dd') : null,
-          endDate: $scope.endDate ? $filter('date')($scope.endDate, 'yyyy-MM-dd') : null,
-          startAmount: $scope.startAmount,
-          endAmount: $scope.endAmount,
-          orderStatus: $scope.selectedStatus ? $scope.selectedStatus.name : null,
-          gender: $scope.selectedGender ? $scope.selectedGender.name : null,
-          diliver: $scope.selectedDiliver ? $scope.selectedDiliver.name : null,
-          supplierId: $scope.selectedSupplierId ? $scope.selectedSupplierId.name : null
-        }
+        '/api/rfm/build', condition
       ).then(function (response) {
         // Binding data
         $scope.result = response.data
@@ -368,11 +374,11 @@ angular.module('dataNewBorn')
       let couponInfo = []
       $.each($scope.locations, function (index, location) {
         $.each($scope.types, function (index2, type) {
-          if (location[type.category].topNumber) {
+          if (location[type.category].topNum) {
             couponInfo.push({
               bussinessLocation: location.value,
               userType: type.userType,
-              topNumber: location[type.category].topNumber,
+              topNum: location[type.category].topNum,
               coupon: location[type.category].coupon,
               caseType: location[type.category].caseType
             })
@@ -381,100 +387,73 @@ angular.module('dataNewBorn')
       })
 
       $http.post(
-        '/rfm/update/coupon', couponInfo
+        '/api/rfm/update/coupon', couponInfo
       ).then(function (response) {
         // TODO
         Notification.success('投放确认成功！共1000人。')
       })
     }
 
-    $scope.resultChartConfig = {
-      title: '复购率',
-      subtitle: '',
-      yAxis: { scale: true },
-      debug: true,
-      stack: false
-    }
-    $scope.resultChartData = [
-      {
-        name: '未投放营销策略',
-        datapoints: [
-          { x: 'GX高新一中商圈', y: 40 },
-          { x: 'GX高新路商圈', y: 60 },
-          { x: 'NQ小寨商圈', y: 30 },
-          { x: 'CN西关商圈', y: 52 },
-          { x: 'BQ市政府商圈', y: 32 }
-        ]
-      },
-      {
-        name: '投放营销策略',
-        datapoints: [
-          { x: 'GX高新一中商圈', y: 58 },
-          { x: 'GX高新路商圈', y: 79 },
-          { x: 'NQ小寨商圈', y: 55 },
-          { x: 'CN西关商圈', y: 82 },
-          { x: 'BQ市政府商圈', y: 66 }
-        ]
-      }
-    ]
+    $scope.getCompareResult = function () {
+      let condition = $scope.getRFMChartCondition()
+      condition.startCompareDate = $scope.startCompareDate ? $filter('date')($scope.startCompareDate, 'yyyy-MM-dd') : null
+      condition.endCompareDate = $scope.endCompareDate ? $filter('date')($scope.endCompareDate, 'yyyy-MM-dd') : null
+      $http.post(
+        '/api/rfm/compare/summary', condition
+      ).then(function (response) {
+        // Binding data
+        $scope.repay = response.data
+      }, function (response) {
+        $scope.repay = response.data
+      })
 
-    $scope.resultChartConfig1 = {
-      title: '金额',
-      subtitle: '',
-      yAxis: { scale: true },
-      debug: true,
-      stack: false
-    }
-    $scope.resultChartData1 = [
-      {
-        name: '上周',
-        datapoints: [
-          { x: 'GX高新一中商圈', y: 22000 },
-          { x: 'GX高新路商圈', y: 13000 },
-          { x: 'NQ小寨商圈', y: 35000 },
-          { x: 'CN西关商圈', y: 52000 },
-          { x: 'BQ市政府商圈', y: 32000 }
-        ]
-      },
-      {
-        name: '本周',
-        datapoints: [
-          { x: 'GX高新一中商圈', y: 22000 },
-          { x: 'GX高新路商圈', y: 15000 },
-          { x: 'NQ小寨商圈', y: 33000 },
-          { x: 'CN西关商圈', y: 49000 },
-          { x: 'BQ市政府商圈', y: 29000 }
-        ]
-      }
-    ]
+      let titles = ['复购率', '金额', '金额', '订单量', '订单量']
+      let dataNames = [
+        ['未投放营销策略', '投放营销策略'],
+        ['上周', '本周'],
+        ['上周', '本周'],
+        ['上周', '本周'],
+        ['上周', '本周']
+      ]
+      for (let i = 0; i < 5; i++) {
+        $http.post(
+          '/api/rfm/compare/' + i, condition
+        ).then(function (ret) {
+          $scope['resultChartConfig' + i] = {
+            title: titles[i],
+            subtitle: '',
+            yAxis: { scale: true },
+            debug: true,
+            stack: false
+          }
 
-    $scope.resultChartConfig2 = {
-      title: '订单量',
-      subtitle: '',
-      yAxis: { scale: true },
-      debug: true,
-      stack: false
-    }
-    $scope.resultChartData2 = [
-      {
-        name: '上周',
-        datapoints: [
-          { x: 'GX高新一中商圈', y: 2000 },
-          { x: 'GX高新路商圈', y: 3000 },
-          { x: 'NQ小寨商圈', y: 3000 },
-          { x: 'CN西关商圈', y: 5000 },
-          { x: 'BQ市政府商圈', y: 2000 }
-        ]
-      },
-      {
-        name: '本周',
-        datapoints: [
-          { x: 'GX高新一中商圈', y: 2200 },
-          { x: 'GX高新路商圈', y: 5000 },
-          { x: 'NQ小寨商圈', y: 3300 },
-          { x: 'CN西关商圈', y: 4900 },
-          { x: 'BQ市政府商圈', y: 2900 }
-        ]
+          $scope['resultChartData' + i] = [
+            {
+              name: dataNames[i][0],
+              datapoints: []
+            },
+            {
+              name: dataNames[i][1],
+              datapoints: []
+            }
+          ]
+
+          let names = Object.getOwnPropertyNames(ret.data[0])
+          $.each(names, function (index, name) {
+            $scope['resultChartData' + i][0].datapoints.push({
+              x: name,
+              y: ret.data[0][name]
+            })
+          })
+
+          names = Object.getOwnPropertyNames(ret.data[1])
+          $.each(names, function (index, name) {
+            $scope['resultChartData' + i][1].datapoints.push({
+              x: name,
+              y: ret.data[1][name]
+            })
+          })
+        })
       }
-    ]
+    }
   }])

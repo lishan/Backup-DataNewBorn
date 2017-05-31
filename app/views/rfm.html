@@ -176,7 +176,7 @@
             <div ng-repeat="type in types track by $index" class="row">
               <div class="col-md-3">
                 <label for="">{{type.category}}:</label>
-                <label>前<input type="number" name="input" min="0" max="1000" required ng-model="location[type.category].topNumber">名用户</label>
+                <label>前<input type="number" name="input" min="0" max="1000" required ng-model="location[type.category].topNum">名用户</label>
               </div>
               <div class="col-md-3">
                 <label>投放金额：<input type="number" name="input" min="0" max="1000" required ng-model="location[type.category].coupon"></label>
@@ -197,24 +197,24 @@
       <div class="container-fluid">
         <div class="form-group">
           <label>请选择需要验证的时间区间:</label> 从
-          <input type="date" name="input" ng-model="checkstartdate" placeholder="yyyy-MM-dd" min="2016-01-01" max="2016-12-31" required
-          /> 到 <input type="date" name="input" ng-model="checkenddate" placeholder="yyyy-MM-dd" min="2016-01-01"
+          <input type="date" name="input" ng-model="startCompareDate" placeholder="yyyy-MM-dd" min="2016-01-01" max="2016-12-31" required
+          /> 到 <input type="date" name="input" ng-model="endCompareDate" placeholder="yyyy-MM-dd" min="2016-01-01"
             max="2016-12-31" required />
-          <button type="button" class="btn btn-success" ng-click="buildRFMModel()">执行</button>
+          <button type="button" class="btn btn-success" ng-click="getCompareResult()">执行</button>
         </div>
       </div>
       <span class="glyphicon glyphicon-eye-open"></span> 复购效果查看
     </div>
     <div class="row">
       <div class="col-md-6">
-          <h4><span class="label label-primary">总复购率：</span> 95% </h4>
-          <h4><span class="label label-primary">订单金额：</span> 500000 </h4>        
-          <h4><span class="label label-primary">总订单量：</span> 10000 </h4>
-          <h4><span class="label label-primary">投放金额：</span> 10000 </h4>
-          <h4><span class="label label-primary">产生利润：</span> 20000 </h4>
+          <h4><span class="label label-primary">总复购率：</span> {{repay['复购率']}}% </h4>
+          <h4><span class="label label-primary">订单金额：</span> {{repay['金额']}} </h4>        
+          <h4><span class="label label-primary">总订单量：</span> {{repay['订单量']}} </h4>
+          <h4><span class="label label-primary">投放金额：</span> {{repay['投入资金']}} </h4>
+          <h4><span class="label label-primary">产生利润：</span> {{repay['利润']}} </h4>
       </div>
       <div class="col-md-6">
-        <bar-chart config="resultChartConfig" data="resultChartData" height="400"></bar-chart>
+        <bar-chart config="resultChartConfig0" data="resultChartData0" height="400"></bar-chart>
       </div>
     </div>
     <div class="row text-center">
@@ -230,15 +230,15 @@
         <bar-chart config="resultChartConfig1" data="resultChartData1" height="400"></bar-chart>
       </div>
       <div class="col-md-6">
-        <bar-chart config="resultChartConfig1" data="resultChartData1" height="400"></bar-chart>
+        <bar-chart config="resultChartConfig2" data="resultChartData2" height="400"></bar-chart>
       </div>
     </div>
     <div class="row">
       <div class="col-md-6">
-        <bar-chart config="resultChartConfig2" data="resultChartData2" height="400"></bar-chart>
+        <bar-chart config="resultChartConfig3" data="resultChartData3" height="400"></bar-chart>
       </div>
       <div class="col-md-6">
-        <bar-chart config="resultChartConfig2" data="resultChartData2" height="400"></bar-chart>
+        <bar-chart config="resultChartConfig4" data="resultChartData4" height="400"></bar-chart>
       </div>
     </div>
 
