@@ -408,12 +408,13 @@ angular.module('dataNewBorn')
       })
 
       let titles = ['复购率', '金额', '金额', '订单量', '订单量']
+     
       let dataNames = [
         ['未投放营销策略', '投放营销策略'],
-        ['上周', '本周'],
-        ['上周', '本周'],
-        ['上周', '本周'],
-        ['上周', '本周']
+        [ condition.startDate + '至' + condition.endDate, condition.startCompareDate + '至' + condition.endCompareDate],
+        [ condition.startDate + '至' + condition.endDate, condition.startCompareDate + '至' + condition.endCompareDate],
+        [ condition.startDate + '至' + condition.endDate, condition.startCompareDate + '至' + condition.endCompareDate],
+        [ condition.startDate + '至' + condition.endDate, condition.startCompareDate + '至' + condition.endCompareDate]
       ]
       for (let i = 0; i < 5; i++) {
         $http.post(
