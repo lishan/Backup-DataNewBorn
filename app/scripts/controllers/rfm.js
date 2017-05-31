@@ -383,12 +383,13 @@ angular.module('dataNewBorn')
       $http.post(
         '/rfm/update/coupon', couponInfo
       ).then(function (response) {
-        //TODO
-      })    
+        // TODO
+        Notification.success('投放确认成功！共1000人。')
+      })
     }
 
     $scope.resultChartConfig = {
-      title: '投放用户消费对比',
+      title: '复购率',
       subtitle: '',
       yAxis: { scale: true },
       debug: true,
@@ -396,29 +397,29 @@ angular.module('dataNewBorn')
     }
     $scope.resultChartData = [
       {
-        name: '上周',
+        name: '未投放营销策略',
         datapoints: [
-          { x: 'GX高新一中商圈', y: 22 },
-          { x: 'GX高新路商圈', y: 13 },
-          { x: 'NQ小寨商圈', y: 35 },
+          { x: 'GX高新一中商圈', y: 40 },
+          { x: 'GX高新路商圈', y: 60 },
+          { x: 'NQ小寨商圈', y: 30 },
           { x: 'CN西关商圈', y: 52 },
           { x: 'BQ市政府商圈', y: 32 }
         ]
       },
       {
-        name: '本周',
+        name: '投放营销策略',
         datapoints: [
-          { x: 'GX高新一中商圈', y: 28 },
-          { x: 'GX高新路商圈', y: 19 },
+          { x: 'GX高新一中商圈', y: 58 },
+          { x: 'GX高新路商圈', y: 79 },
           { x: 'NQ小寨商圈', y: 55 },
           { x: 'CN西关商圈', y: 82 },
-          { x: 'BQ市政府商圈', y: 38 }
+          { x: 'BQ市政府商圈', y: 66 }
         ]
       }
     ]
 
     $scope.resultChartConfig1 = {
-      title: '未投放用户消费对比',
+      title: '金额',
       subtitle: '',
       yAxis: { scale: true },
       debug: true,
@@ -428,21 +429,51 @@ angular.module('dataNewBorn')
       {
         name: '上周',
         datapoints: [
-          { x: 'GX高新一中商圈', y: 22 },
-          { x: 'GX高新路商圈', y: 13 },
-          { x: 'NQ小寨商圈', y: 35 },
-          { x: 'CN西关商圈', y: 52 },
-          { x: 'BQ市政府商圈', y: 32 }
+          { x: 'GX高新一中商圈', y: 22000 },
+          { x: 'GX高新路商圈', y: 13000 },
+          { x: 'NQ小寨商圈', y: 35000 },
+          { x: 'CN西关商圈', y: 52000 },
+          { x: 'BQ市政府商圈', y: 32000 }
         ]
       },
       {
         name: '本周',
         datapoints: [
-          { x: 'GX高新一中商圈', y: 22 },
-          { x: 'GX高新路商圈', y: 15 },
-          { x: 'NQ小寨商圈', y: 33 },
-          { x: 'CN西关商圈', y: 49 },
-          { x: 'BQ市政府商圈', y: 29 }
+          { x: 'GX高新一中商圈', y: 22000 },
+          { x: 'GX高新路商圈', y: 15000 },
+          { x: 'NQ小寨商圈', y: 33000 },
+          { x: 'CN西关商圈', y: 49000 },
+          { x: 'BQ市政府商圈', y: 29000 }
+        ]
+      }
+    ]
+
+    $scope.resultChartConfig2 = {
+      title: '订单量',
+      subtitle: '',
+      yAxis: { scale: true },
+      debug: true,
+      stack: false
+    }
+    $scope.resultChartData2 = [
+      {
+        name: '上周',
+        datapoints: [
+          { x: 'GX高新一中商圈', y: 2000 },
+          { x: 'GX高新路商圈', y: 3000 },
+          { x: 'NQ小寨商圈', y: 3000 },
+          { x: 'CN西关商圈', y: 5000 },
+          { x: 'BQ市政府商圈', y: 2000 }
+        ]
+      },
+      {
+        name: '本周',
+        datapoints: [
+          { x: 'GX高新一中商圈', y: 2200 },
+          { x: 'GX高新路商圈', y: 5000 },
+          { x: 'NQ小寨商圈', y: 3300 },
+          { x: 'CN西关商圈', y: 4900 },
+          { x: 'BQ市政府商圈', y: 2900 }
         ]
       }
     ]
