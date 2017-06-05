@@ -37,8 +37,8 @@ angular
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
-        templateUrl: 'views/main.html',
-        controller: 'MainCtrl'
+        templateUrl: 'views/rfm.html',
+        controller: 'RfmCtrl'
       })
       .when('/dashboard', {
         templateUrl: 'views/dashboard.html',

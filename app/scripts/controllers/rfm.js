@@ -95,6 +95,10 @@ angular.module('dataNewBorn')
       $scope.conditionsStr += '执行RFM模型。'
     }
 
+    $http.get('/api/rfm/result/locations').then(function (ret) {
+      $scope.resultLocations = ret.data
+    })
+
     $scope.show = function () {
       $scope.setCondtionStr()
       $http.post('/api/rfm/statistic/charts', {
@@ -109,6 +113,13 @@ angular.module('dataNewBorn')
       }).then(function (ret) {
         // setup tables
         $scope.queryDataTableData = ret.data
+        if ($scope.resultLocations) {
+          $.each($scope.queryDataTableData, function (index, locationData) {
+            if ($scope.resultLocations.indexOf(locationData.bussinessLocation) >= 0) {
+              $scope.toggleSelection(locationData)
+            }
+          })
+        }
         $scope.queryDataTableParams = new NgTableParams({}, { dataset: ret.data})
         // setup charts
         let labels = ['金额', '订单量', '订单平均金额']
@@ -200,16 +211,29 @@ angular.module('dataNewBorn')
     $scope.selectLocation = function () {
       $scope.locationPie = {}
       $scope.locationPie.config = {
-        title: $scope.selectedLocation.name,
-        showTitle: true,
-        grid: {
-          top: 0,
-          bottom: 0
-        }
+        title: '客户人数统计'
       }
       $scope.locationPie.datapoints = []
       $scope.locationPie.data = [{
         datapoints: $scope.locationPie.datapoints
+      }]
+
+      $scope.locationPie1 = {}
+      $scope.locationPie1.config = {
+        title: '订单金额统计'
+      }
+      $scope.locationPie1.datapoints = []
+      $scope.locationPie1.data = [{
+        datapoints: $scope.locationPie1.datapoints
+      }]
+
+      $scope.locationPie2 = {}
+      $scope.locationPie2.config = {
+        title: '订单量统计'
+      }
+      $scope.locationPie2.datapoints = []
+      $scope.locationPie2.data = [{
+        datapoints: $scope.locationPie2.datapoints
       }]
 
       $http({
@@ -239,6 +263,14 @@ angular.module('dataNewBorn')
             x: $scope.types[i].category,
             y: ret.data.datas[i].number
           })
+          $scope.locationPie1.datapoints.push({
+            x: $scope.types[i].category,
+            y: ret.data.datas[i].total
+          })
+          $scope.locationPie2.datapoints.push({
+            x: $scope.types[i].category,
+            y: ret.data.datas[i].count
+          })
           // add table data
           $scope.locationTable.data.push(ret.data.datas[i])
         }
@@ -249,6 +281,14 @@ angular.module('dataNewBorn')
         $scope.locationPie.datapoints.push({
           x: '其他',
           y: ret.data.datas[3].number - currentNumber
+        })
+        $scope.locationPie1.datapoints.push({
+          x: '其他',
+          y: ret.data.datas[3].total - currentTotal
+        })
+        $scope.locationPie2.datapoints.push({
+          x: '其他',
+          y: ret.data.datas[3].count - currentCount
         })
 
         let otherRow = {
@@ -351,6 +391,7 @@ angular.module('dataNewBorn')
       }
     }
     $scope.buildRFMModel = function () {
+      delete $scope.queryDataTableData
       let selectedLocations = []
       $.each($scope.locations, function (index, location) {
         if (location.value !== 'null') {
@@ -369,6 +410,27 @@ angular.module('dataNewBorn')
         $scope.result = response.data
       })
     }
+
+    $scope.couponstable = {}
+    $scope.couponstable.columns = [
+      {title: '商圈',
+      field: 'bussinessLocation'},
+      {title: '用户id',
+      field: 'userid'},
+      {title: '用户名',
+      field: 'username'},
+      {title: '电话号码',
+      field: 'phone'},
+      {title: '优惠券金额(元)',
+      field: 'coupon'},
+      {title: '消费金额',
+        field: 'm',
+      valueFormatter: 'number:2'},
+      {title: '消费次数',
+      field: 'f'},
+      {title: '最近消费(N天前)',
+      field: 'r'}
+    ]
 
     $scope.setCoupon = function () {
       let couponInfo = []
@@ -391,6 +453,26 @@ angular.module('dataNewBorn')
       ).then(function (response) {
         // TODO
         Notification.success('投放确认成功！共1000人。')
+        $scope.couponstable.tableParams = new NgTableParams({
+            page: 1, // show first page
+            count: 10 // count per page
+          }, {
+            total: ret.data.totalCount,
+            getData: function getData (params) {
+              return $http({
+                method: 'POST',
+                url: '/api/rfm/table/' + table.id,
+                data: $httpParamSerializerJQLike({
+                  location: $scope.selectedLocation.value,
+                  pageNo: params.page(),
+                  pageSize: params.count()
+                }),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+              }).then(function (retData) {
+                return retData.data.datas
+              })
+            }
+          })
       })
     }
 
@@ -408,7 +490,7 @@ angular.module('dataNewBorn')
       })
 
       let titles = ['复购率', '金额', '金额', '订单量', '订单量']
-     
+
       let dataNames = [
         ['未投放营销策略', '投放营销策略'],
         [ condition.startDate + '至' + condition.endDate, condition.startCompareDate + '至' + condition.endCompareDate],

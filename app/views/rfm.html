@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-md-2">
+  <!--<div class="col-md-2">
     <div class="list-group">
       <div class="list-group-item container-fluid">
         <button class="wizard-button btn btn-default btn-block" href="" ng-click="openModal()">新增</button>
@@ -11,8 +11,8 @@
         <button type="button" class="btn btn-default btn-xs btn-warning pull-right" ng-click="edit(item)"><i class="glyphicon glyphicon-edit"></i></button>
       </a>
     </div>
-  </div>
-  <div class="col-md-10">
+  </div>-->
+  <div class="col-md-12">
     <div class="well well-sm text-center text-primary" style="font-size: 24px;">
       <span class="glyphicon glyphicon-signal"></span> 商圈销售状况
     </div>
@@ -61,10 +61,13 @@
         <button type="button" class="btn btn-success" ng-click="show()">查询</button>
       </div>
       <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#querypanel">查询条件</button>
+      <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#dashboardpanel">查看统计</button>
     </div>
     <div class="row">
-      <div ng-repeat="chart in charts" class="col-md-4">
-        <bar-chart config="chart.config" data="chart.data" height="400"></bar-chart>
+      <div id="dashboardpanel" class="col-md-12 collapse">
+        <div ng-repeat="chart in charts" class="col-md-4">
+          <bar-chart config="chart.config" data="chart.data" height="400"></bar-chart>
+        </div>
       </div>
     </div>
     <br>
@@ -82,7 +85,6 @@
         </tr>
       </table>
     </div>
-
 
     <div class="well well-sm text-center text-success" style="font-size: 24px;">
       <span class="glyphicon glyphicon-hand-right"></span> 价值客户推荐
@@ -103,15 +105,22 @@
   </label>
     <br>
     <div class="row">
-      <div class="col-md-4">
+      <div class="col-md-4 text-center">
+        <h3>客户人数统计</h3>
         <pie-chart config="locationPie.config" data="locationPie.data" height="400"></pie-chart>
       </div>
-      <div class="col-md-8">
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
+      <div class="col-md-4 text-center">
+        <h3>订单金额统计</h3>
+        <pie-chart config="locationPie1.config" data="locationPie1.data" height="400"></pie-chart>
+      </div>
+      <div class="col-md-4 text-center">
+        <h3>订单量统计</h3>
+        <pie-chart config="locationPie2.config" data="locationPie2.data" height="400"></pie-chart>
+      </div>
+    </div>
+    <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#locationInfoTable">表格</button>
+    <div id="locationInfoTable" class="row collapse">
+      <div class="col-md-12">
         <table ng-table="locationTable.params" class="table table-condensed table-bordered table-striped">
           <tr ng-repeat="row in $data">
             <td data-title="'类型'">{{row.type}}</td>
@@ -124,7 +133,6 @@
         </table>
       </div>
     </div>
-
     <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#locationInfo">详细</button>
     <br>
     <div id="locationInfo" class="collapse">
@@ -163,36 +171,55 @@
     </div>
     <br>
     <div class="well well-sm text-center text-warning" style="font-size: 24px;">
-      <span class="glyphicon glyphicon-user"></span> 用户投放确认
+      <span class="glyphicon glyphicon-user"></span> 用户投放设置
     </div>
-    <button type="button" class="btn btn-success" ng-click="setCoupon()">执行</button>
+    <label for="">当前商圈：{{selectedLocation.name}}</label>
     <div class="row">
-      <div class="col-md-12">
-        <div ng-repeat="location in locations track by $index" class="row">
-          <div class="col-md-2">
-            <label for="">{{location.name}}</label>
-          </div>
-          <div class="col-md-10">
-            <div ng-repeat="type in types track by $index" class="row">
-              <div class="col-md-3">
-                <label for="">{{type.category}}:</label>
-                <label>前<input type="number" name="input" min="0" max="1000" required ng-model="location[type.category].topNum">名用户</label>
-              </div>
-              <div class="col-md-3">
-                <label>投放金额：<input type="number" name="input" min="0" max="1000" required ng-model="location[type.category].coupon"></label>
-              </div>
-              <div class="col-md-3">
-                <div class="btn-group">
-                  <label class="btn btn-default" ng-model="location[type.category].caseType" uib-btn-radio="'2'">全部行</label>
-                  <label class="btn btn-default" ng-model="location[type.category].caseType" uib-btn-radio="'1'">偶数行</label>
-                  <label class="btn btn-default" ng-model="location[type.category].caseType" uib-btn-radio="'0'">奇数行</label>
-                </div>
-              </div>
-            </div>
+      <div class="col-md-2">
+      </div>
+      <div class="col-md-10">
+        <div ng-repeat="type in types track by $index" class="row">
+          <label for="">{{type.category}}:</label>
+          <label>前<input type="number" name="input" min="0" max="1000" required ng-model="location[type.category].topNum">名用户</label>
+          <label>每人投放金额：<input type="number" name="input" min="0" max="1000" required ng-model="location[type.category].coupon"></label>
+          <div class="btn-group">
+            <label class="btn btn-default" ng-model="location[type.category].caseType" uib-btn-radio="'2'">全部行</label>
+            <label class="btn btn-default" ng-model="location[type.category].caseType" uib-btn-radio="'1'">偶数行</label>
+            <label class="btn btn-default" ng-model="location[type.category].caseType" uib-btn-radio="'0'">奇数行</label>
           </div>
         </div>
       </div>
     </div>
+    <button type="button" class="btn btn-success" ng-click="setCoupon()">执行</button>
+    <br>
+    <br>
+    <!--<div class="row">
+      <div class="col-md-12">
+        <div style="overflow:scroll; height:400px;">
+          <table ng-table="couponstable.tableParams" show-filter="true" class="table table-condensed table-bordered table-striped">
+            <thead>
+              <tr>
+                <th ng-repeat="column in couponstable.columns" class="text-center">
+                  {{column.title}}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="user in $data">
+                <td ng-repeat="column in couponstable.columns">
+                  {{user[column.field]}}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>-->
+    <br>
+    <button type="button" class="btn btn-success" ng-click="exportReport()">导出</button>
+    <br>
+    <br>
     <div class="well well-sm text-center text-info" style="font-size: 24px;">
       <div class="container-fluid">
         <div class="form-group">
@@ -207,11 +234,11 @@
     </div>
     <div class="row">
       <div class="col-md-6">
-          <h4><span class="label label-primary">总复购率：</span> {{repay['复购率']}}% </h4>
-          <h4><span class="label label-primary">订单金额：</span> {{repay['金额']}} </h4>        
-          <h4><span class="label label-primary">总订单量：</span> {{repay['订单量']}} </h4>
-          <h4><span class="label label-primary">投放金额：</span> {{repay['投入资金']}} </h4>
-          <h4><span class="label label-primary">产生利润：</span> {{repay['利润']}} </h4>
+        <h4><span class="label label-primary">总复购率：</span> {{repay['复购率']}}% </h4>
+        <h4><span class="label label-primary">订单金额：</span> {{repay['金额']}} </h4>
+        <h4><span class="label label-primary">总订单量：</span> {{repay['订单量']}} </h4>
+        <h4><span class="label label-primary">投放金额：</span> {{repay['投入资金']}} </h4>
+        <h4><span class="label label-primary">产生利润：</span> {{repay['利润']}} </h4>
       </div>
       <div class="col-md-6">
         <bar-chart config="resultChartConfig0" data="resultChartData0" height="400"></bar-chart>
