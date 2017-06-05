@@ -193,31 +193,19 @@
     <button type="button" class="btn btn-success" ng-click="setCoupon()">执行</button>
     <br>
     <br>
-    <!--<div class="row">
+    <div class="row">
       <div class="col-md-12">
-        <div style="overflow:scroll; height:400px;">
-          <table ng-table="couponstable.tableParams" show-filter="true" class="table table-condensed table-bordered table-striped">
-            <thead>
-              <tr>
-                <th ng-repeat="column in couponstable.columns" class="text-center">
-                  {{column.title}}
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr ng-repeat="user in $data">
-                <td ng-repeat="column in couponstable.columns">
-                  {{user[column.field]}}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
+         <table ng-table="couponsTableParams" class="table table-condensed table-bordered table-striped">
+          <tr ng-repeat="row in $data">
+            <td data-title="'商圈'">{{row.bussinessLocation}}</td>
+            <td data-title="'用户id'">{{row.userid}}</td>
+            <td data-title="'电话号码'">{{row.phone}}</td>
+            <td data-title="'优惠券金额(元)'">{{row.coupon}}</td>
+          </tr>
+        </table>
       </div>
-    </div>-->
-    <br>
-    <button type="button" class="btn btn-success" ng-click="exportReport()">导出</button>
+    </div>
+    <button type="button" class="btn btn-success" ng-click="exportCoupons()">导出</button>
     <br>
     <br>
     <div class="well well-sm text-center text-info" style="font-size: 24px;">

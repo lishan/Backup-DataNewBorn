@@ -411,27 +411,6 @@ angular.module('dataNewBorn')
       })
     }
 
-    $scope.couponstable = {}
-    $scope.couponstable.columns = [
-      {title: '商圈',
-      field: 'bussinessLocation'},
-      {title: '用户id',
-      field: 'userid'},
-      {title: '用户名',
-      field: 'username'},
-      {title: '电话号码',
-      field: 'phone'},
-      {title: '优惠券金额(元)',
-      field: 'coupon'},
-      {title: '消费金额',
-        field: 'm',
-      valueFormatter: 'number:2'},
-      {title: '消费次数',
-      field: 'f'},
-      {title: '最近消费(N天前)',
-      field: 'r'}
-    ]
-
     $scope.setCoupon = function () {
       let couponInfo = []
       $.each($scope.locations, function (index, location) {
@@ -453,26 +432,53 @@ angular.module('dataNewBorn')
       ).then(function (response) {
         // TODO
         Notification.success('投放确认成功！共1000人。')
-        $scope.couponstable.tableParams = new NgTableParams({
-            page: 1, // show first page
-            count: 10 // count per page
-          }, {
-            total: ret.data.totalCount,
-            getData: function getData (params) {
-              return $http({
-                method: 'POST',
-                url: '/api/rfm/table/' + table.id,
-                data: $httpParamSerializerJQLike({
-                  location: $scope.selectedLocation.value,
-                  pageNo: params.page(),
-                  pageSize: params.count()
-                }),
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-              }).then(function (retData) {
-                return retData.data.datas
-              })
-            }
+        let totalCount = 1000
+        $scope.updateCoupons(totalCount)
+      })
+    }
+
+    $http.get(
+      '/api/rfm/coupons/totalcount'
+    ).then(function (response) {
+      let totalCount = response.data
+      $scope.updateCoupons(totalCount)
+    })
+
+    $scope.updateCoupons = function (totalCount) {
+      $scope.couponsTableParams = new NgTableParams({
+        page: 1, // show first page
+        count: 10 // count per page
+      }, {
+        total: totalCount,
+        getData: function getData (params) {
+          return $http({
+            method: 'POST',
+            url: '/api/rfm/coupons',
+            data: $httpParamSerializerJQLike({
+              location: $scope.selectedLocation.value,
+              pageNo: params.page(),
+              pageSize: params.count()
+            }),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+          }).then(function (retData) {
+            return retData.data
           })
+        }
+      })
+    }
+
+    $scope.exportCoupons = function () {
+      let label = '投放用户列表.xls'
+      $http({
+        method: 'POST',
+        url: '/api/rfm/coupons/export',
+        data: $httpParamSerializerJQLike({
+          location: $scope.selectedLocation.name
+        }),
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+      }).then(function (ret) {
+        Notification.success('导出成功！')
+        $window.location.href = '/api/rfm/download/file?fileName=' + ret.data.file + '&label=' + label
       })
     }
 
