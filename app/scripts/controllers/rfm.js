@@ -115,7 +115,7 @@ angular.module('dataNewBorn')
         $scope.queryDataTableData = ret.data
         if ($scope.resultLocations) {
           $.each($scope.queryDataTableData, function (index, locationData) {
-            if ($scope.resultLocations.indexOf(locationData.bussinessLocation) >= 0) {
+            if ($scope.resultLocations.indexOf(locationData.businessLocation) >= 0) {
               $scope.toggleSelection(locationData)
             }
           })
@@ -178,8 +178,8 @@ angular.module('dataNewBorn')
       $.each($scope.queryDataTableData, function (index, rowData) {
         if (rowData.isRowSelected) {
           $scope.locations.push({
-            name: rowData.bussinessLocation,
-            value: rowData.bussinessLocation,
+            name: rowData.businessLocation,
+            value: rowData.businessLocation,
             '重要价值客户': {}, '重要保持客户': {}, '重要发展客户': {}
           })
         }
@@ -399,7 +399,7 @@ angular.module('dataNewBorn')
         }
       })
       let condition = $scope.getRFMChartCondition()
-      condition.bussinessLocations = selectedLocations
+      condition.businessLocations = selectedLocations
       $http.post(
         '/api/rfm/build', condition
       ).then(function (response) {
@@ -417,7 +417,7 @@ angular.module('dataNewBorn')
         $.each($scope.types, function (index2, type) {
           if (location[type.category].topNum) {
             couponInfo.push({
-              bussinessLocation: location.value,
+              businessLocation: location.value,
               userType: type.userType,
               topNum: location[type.category].topNum,
               coupon: location[type.category].coupon,

@@ -20,8 +20,8 @@
       <div class="form-group collapse well well-sm text-primary" id="querypanel">
         <div>
           <label>时间区间: 从
-        <input type="date" name="input" ng-model="startDate" placeholder="yyyy-MM-dd" min="2016-01-01" max="2016-12-31" required
-        /> 到 <input type="date" name="input" ng-model="endDate" placeholder="yyyy-MM-dd" min="2016-01-01" max="2016-12-31"
+        <input type="date" name="input" ng-model="startDate" placeholder="yyyy-MM-dd" required
+        /> 到 <input type="date" name="input" ng-model="endDate" placeholder="yyyy-MM-dd"
           required /></label>
         </div>
         <div>
@@ -78,7 +78,7 @@
         <tr ng-repeat="row in $data">
           <td data-title="''" style="width: 35px">
             <input type="checkbox" ng-checked="row.isRowSelected" ng-click="toggleSelection(row)" /> </td>
-          <td data-title="'商圈'" filter="{bussinessLocation: 'text'}" sortable="'bussinessLocation'">{{row.bussinessLocation}}</td>
+          <td data-title="'商圈'" filter="{businessLocation: 'text'}" sortable="'businessLocation'">{{row.businessLocation}}</td>
           <td data-title="'金额'" filter="{total: 'number'}" sortable="'total'">{{row.total}}</td>
           <td data-title="'订单量'" filter="{count: 'number'}" sortable="'count'">{{row.count}}</td>
           <td data-title="'每单平均金额'" filter="{mean: 'number'}" sortable="'mean'">{{row.mean}}</td>
@@ -197,7 +197,7 @@
       <div class="col-md-12">
          <table ng-table="couponsTableParams" class="table table-condensed table-bordered table-striped">
           <tr ng-repeat="row in $data">
-            <td data-title="'商圈'">{{row.bussinessLocation}}</td>
+            <td data-title="'商圈'">{{row.businessLocation}}</td>
             <td data-title="'用户id'">{{row.userid}}</td>
             <td data-title="'电话号码'">{{row.phone}}</td>
             <td data-title="'优惠券金额(元)'">{{row.coupon}}</td>
@@ -212,9 +212,8 @@
       <div class="container-fluid">
         <div class="form-group">
           <label>请选择需要验证的时间区间:</label> 从
-          <input type="date" name="input" ng-model="startCompareDate" placeholder="yyyy-MM-dd" min="2016-01-01" max="2016-12-31" required
-          /> 到 <input type="date" name="input" ng-model="endCompareDate" placeholder="yyyy-MM-dd" min="2016-01-01"
-            max="2016-12-31" required />
+          <input type="date" name="input" ng-model="startCompareDate" placeholder="yyyy-MM-dd" required
+          /> 到 <input type="date" name="input" ng-model="endCompareDate" placeholder="yyyy-MM-dd" required />
           <button type="button" class="btn btn-success" ng-click="getCompareResult()">执行</button>
         </div>
       </div>
