@@ -180,12 +180,12 @@
       <div class="col-md-10">
         <div ng-repeat="type in types track by $index" class="row">
           <label for="">{{type.category}}:</label>
-          <label>前<input type="number" name="input" min="0" max="1000" required ng-model="location[type.category].topNum">名用户</label>
-          <label>每人投放金额：<input type="number" name="input" min="0" max="1000" required ng-model="location[type.category].coupon"></label>
+          <label>前<input type="number" name="input" min="0" max="1000" required ng-model="selectedLocation[type.category].topNum">名用户</label>
+          <label>每人投放金额：<input type="number" name="input" min="0" max="1000" required ng-model="selectedLocation[type.category].coupon"></label>
           <div class="btn-group">
-            <label class="btn btn-default" ng-model="location[type.category].caseType" uib-btn-radio="'2'">全部行</label>
-            <label class="btn btn-default" ng-model="location[type.category].caseType" uib-btn-radio="'1'">偶数行</label>
-            <label class="btn btn-default" ng-model="location[type.category].caseType" uib-btn-radio="'0'">奇数行</label>
+            <label class="btn btn-default" ng-model="selectedLocation[type.category].caseType" uib-btn-radio="'2'">全部行</label>
+            <label class="btn btn-default" ng-model="selectedLocation[type.category].caseType" uib-btn-radio="'1'">偶数行</label>
+            <label class="btn btn-default" ng-model="selectedLocation[type.category].caseType" uib-btn-radio="'0'">奇数行</label>
           </div>
         </div>
       </div>
@@ -199,7 +199,7 @@
           <tr ng-repeat="row in $data">
             <td data-title="'商圈'">{{row.bussinessLocation}}</td>
             <td data-title="'用户id'">{{row.userid}}</td>
-            <td data-title="'电话号码'">{{row.phone}}</td>
+            <td data-title="'电话号码'">{{row.userPhone}}</td>
             <td data-title="'优惠券金额(元)'">{{row.coupon}}</td>
           </tr>
         </table>

@@ -25,7 +25,7 @@ angular.module('dataNewBorn')
 
     // TODO
     $scope.startDate = new Date(2016, 10, 1)
-    $scope.endDate = new Date(2016, 10, 7)
+    $scope.endDate = new Date(2016, 10, 13)
     $scope.startCompareDate = new Date(2016, 10, 8)
     $scope.endCompareDate = new Date(2016, 10, 13)
 
@@ -314,8 +314,8 @@ angular.module('dataNewBorn')
         table.columns = [
           {title: '用户id',
           field: 'userid'},
-          {title: '用户名',
-          field: 'username'},
+          // {title: '用户名',
+          // field: 'username'},
           {title: '电话号码',
           field: 'phone'},
           {title: '消费金额',
