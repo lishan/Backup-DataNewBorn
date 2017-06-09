@@ -24,10 +24,10 @@ angular.module('dataNewBorn')
     $scope.selectedItem = $scope.themes[0]
 
     // TODO
-    $scope.startDate = new Date(2016, 10, 1)
-    $scope.endDate = new Date(2016, 10, 13)
-    $scope.startCompareDate = new Date(2016, 10, 8)
-    $scope.endCompareDate = new Date(2016, 10, 13)
+    $scope.startDate = new Date(2017, 4, 25)
+    $scope.endDate = new Date(2017, 5, 7)
+    $scope.startCompareDate = new Date(2017, 5, 8)
+    $scope.endCompareDate = new Date(2017, 5, 13)
 
     $scope.orderStatus = [
       {name: '订单已完成', shade: 'dark'},
@@ -316,8 +316,8 @@ angular.module('dataNewBorn')
           field: 'userid'},
           // {title: '用户名',
           // field: 'username'},
-          {title: '电话号码',
-          field: 'phone'},
+          // {title: '电话号码',
+          // field: 'phone'},
           {title: '消费金额',
             field: 'm',
           valueFormatter: 'number:2'},
@@ -431,14 +431,14 @@ angular.module('dataNewBorn')
         '/api/rfm/update/coupon', couponInfo
       ).then(function (response) {
         // TODO
-        Notification.success('投放确认成功！共1000人。')
-        let totalCount = 1000
+        let totalCount = response.data[scope.selectedLocation.value]
+        Notification.success('投放确认成功！共' + totalCount + '人。')
         $scope.updateCoupons(totalCount)
       })
     }
 
     $http.get(
-      '/api/rfm/coupons/totalcount'
+      '/api/rfm/coupons/totalcount', {location: ''}
     ).then(function (response) {
       let totalCount = response.data
       $scope.updateCoupons(totalCount)
@@ -473,7 +473,7 @@ angular.module('dataNewBorn')
         method: 'POST',
         url: '/api/rfm/coupons/export',
         data: $httpParamSerializerJQLike({
-          location: $scope.selectedLocation.name
+          location: $scope.selectedLocation.value
         }),
         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
       }).then(function (ret) {
