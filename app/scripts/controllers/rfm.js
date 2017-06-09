@@ -431,7 +431,7 @@ angular.module('dataNewBorn')
         '/api/rfm/update/coupon', couponInfo
       ).then(function (response) {
         // TODO
-        let totalCount = response.data[scope.selectedLocation.value]
+        let totalCount = response.data[$scope.selectedLocation.value]
         Notification.success('投放确认成功！共' + totalCount + '人。')
         $scope.updateCoupons(totalCount)
       })
@@ -445,6 +445,10 @@ angular.module('dataNewBorn')
     })
 
     $scope.updateCoupons = function (totalCount) {
+      let location = 'null'
+      if($scope.selectedLocation){
+        location = $scope.selectedLocation.value
+      }
       $scope.couponsTableParams = new NgTableParams({
         page: 1, // show first page
         count: 10 // count per page
@@ -455,7 +459,7 @@ angular.module('dataNewBorn')
             method: 'POST',
             url: '/api/rfm/coupons',
             data: $httpParamSerializerJQLike({
-              location: $scope.selectedLocation.value,
+              location: location,
               pageNo: params.page(),
               pageSize: params.count()
             }),
