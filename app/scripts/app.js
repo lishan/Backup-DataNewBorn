@@ -56,10 +56,6 @@ angular
         templateUrl: 'views/rfm.html',
         controller: 'RfmCtrl'
       })
-      .when('/library', {
-        templateUrl: 'views/library.html',
-        controller: 'LibraryCtrl'
-      })
       .when('/setting', {
         templateUrl: 'views/setting.html',
         controller: 'SettingCtrl'
@@ -90,14 +86,14 @@ angular
     };
     $rootScope.init = (tab) => {
       let name = $cookies.get("username");
-      if(name === null || name === undefined){
-        $rootScope.username = null;
-        $rootScope.message = "请先登录";
-        $rootScope.styles = "redBlock";
-        $location.path("/");
-      }else {
-        $rootScope.tab = tab;
-        $rootScope.username = name;
-      }
+      // if(name === null || name === undefined){
+      //   $rootScope.username = null;
+      //   $rootScope.message = "请先登录";
+      //   $rootScope.styles = "redBlock";
+      //   $location.path("/");
+      // }else {
+      //   $rootScope.tab = tab;
+      //   $rootScope.username = name;
+      // }
     };
   });

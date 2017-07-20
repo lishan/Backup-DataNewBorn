@@ -3,7 +3,6 @@
 
 let gulp = require('gulp');
 let $ = require('gulp-load-plugins')();
-let openURL = require("open");
 let lazypipe = require('lazypipe');
 let rimraf = require('rimraf');
 let wiredep = require('wiredep').stream;
@@ -86,10 +85,6 @@ gulp.task('lint:serverScripts', function () {
     .pipe(lintScripts());
 });
 
-gulp.task('start:client', ['start:server'], function () {
-  openURL("http://localhost:9000","chrome");
-});
-
 gulp.task('start:server', ['styles', 'es6:frontend', 'es6:server', 'bower'], function(cb) {
   let started = false;
   return $.nodemon({
@@ -116,13 +111,11 @@ gulp.task('watch', function () {
 
   $.watch(paths.scripts)
     .pipe($.plumber())
-    .pipe(lintScripts())
     .pipe(es6ClientScript())
     .pipe($.livereload());
 
   $.watch(paths.serverScripts)
     .pipe($.plumber())
-    .pipe(lintScripts())
     .pipe(es6ServerScript());
 
   $.watch(paths.test)
@@ -133,11 +126,7 @@ gulp.task('watch', function () {
 });
 
 gulp.task('serve', function (cb) {
-  runSequence(
-    ['lint:clientScripts'],
-    ['lint:serverScripts'],
-    ['start:client'],
-    'watch', cb);
+  runSequence('start:server', 'watch', cb);
 });
 
 // inject bower components
